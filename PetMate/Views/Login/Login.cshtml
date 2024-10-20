@@ -1,4 +1,4 @@
-﻿@model PetMate.Model.User
+﻿@model PetMate.ViewModels.UserViewModel
 @{
     Layout = "_Layout";
 }
@@ -13,11 +13,18 @@
                 <div class="col-lg-7">
                     <form>
                         <div class="row g-3">
+                           
+                                
+                            
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Name" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Username" style="height: 55px;">
+                            </div>
+
+                            <div class="col-12">
+                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Email" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Your Email" style="height: 55px;">
+                                <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Password" style="height: 55px;">
                             </div>
                             <div>
                                 <a class ="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("Registration","Login")">Register</a>

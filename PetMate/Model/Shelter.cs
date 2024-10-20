@@ -13,7 +13,11 @@ public partial class Shelter
 
     public int Type { get; set; }
 
-    public TimeSpan WorkingTime { get; set; }
+    public int WorkingTime { get; set; }
 
-    public TimeSpan VisitorsTime { get; set; }
+    public int VisitorsTime { get; set; }
+
+    public string? ShelterName { get; set; }
+
+    public string ShelterPassword { get; set; } = null!;
 }
