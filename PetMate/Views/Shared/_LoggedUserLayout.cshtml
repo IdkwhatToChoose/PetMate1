@@ -26,7 +26,7 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
 </head>
 
 <body>
@@ -73,11 +73,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="@Url.Action("LoginShelter","Login")" class="nav-item nav-link">Profile</a>
-                <a href="@Url.Action("Login","Login")" class="nav-item nav-link">Logout</a>
-                <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
+                <a href="@Url.Action("ProfileInfo","Profile")" class="nav-item nav-link">Profile</a>
+                <a href="@Url.Action("Logout","Profile")" class="nav-item nav-link">Logout</a>
+             @*   <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
                 <a href="@Url.Action("about","About")" class="nav-item nav-link">About</a>
-                <a href="@Url.Action("Service","Service")" class="nav-item nav-link active">Service</a>
+                <a href="@Url.Action("Service","Service")" class="nav-item nav-link active">Service</a>*@
                 <a href="@Url.Action("Product","Product")" class="nav-item nav-link">Product</a>
                 @*<div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>

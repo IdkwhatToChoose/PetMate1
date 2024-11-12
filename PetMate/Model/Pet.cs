@@ -16,4 +16,6 @@ public partial class Pet
     public int ShelterId { get; set; }
 
     public int? AdopterId { get; set; }
+
+    public string? Character { get; set; }
 }

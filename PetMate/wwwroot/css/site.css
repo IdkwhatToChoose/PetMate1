@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+
 html {
   font-size: 14px;
 }
@@ -474,3 +477,54 @@ body {
 .blog-item a:hover i::after {
     width: 50px;
 }
+
+.registr-container{
+    margin-top:2%;
+}
+/*----------         --------------      -------------      -------------      Habit form | */
+#hobby-form * {
+    font-family: "Josefin Sans";
+}
+
+.question {
+    background: rgba(51, 51, 53, 0.089);
+    border-radius: 2px;
+    padding: 6px;
+    max-width: 90%;
+    margin-bottom: 10px;
+}
+
+    .question span:first-child {
+        color: #014d11;
+        font-weight: 700;
+    }
+
+
+.section-container {
+    margin: 10px;
+    max-width: 30%;
+    padding: 5px;
+    border-radius: 2px;
+    background: rgba(46, 45, 45, 0.171);
+    transition: all ease 0.2s;
+}
+
+    .section-container span {
+        border-radius: 50%;
+    }
+
+.question .section-container:hover {
+    box-shadow: 3px 0px 10px 0.5px rgb(8, 92, 1);
+}
+
+.section-container input[type="checkbox"] {
+    transform: scale(1.4);
+    margin-right: 12px;
+    margin-left: 4px;
+}
+    /* .section-container input[type="checkbox"]:checked + .option span {
+            background-color: #4caf50;
+          } */
+    .section-container input[type="checkbox"]:checked + span {
+        color: #1d5a00;
+    }

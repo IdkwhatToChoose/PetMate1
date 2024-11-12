@@ -26,7 +26,7 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
 </head>
 
 <body>
@@ -73,13 +73,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="@Url.Action("LoginShelter","Login")" class="nav-item nav-link">Login as shelter</a>
-                <a href="@Url.Action("Login","Login")" class="nav-item nav-link">Login</a>
-                <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
-                <a href="@Url.Action("about","About")" class="nav-item nav-link">About</a>
-                <a href="@Url.Action("Service","Service")" class="nav-item nav-link active">Service</a>
-                <a href="@Url.Action("Product","Product")" class="nav-item nav-link">Product</a>
-                <div class="nav-item dropdown">
+                @if (ViewBag.LoggedIn == true)
+                {
+                    <a href="@Url.Action("Logout","Login")" class="nav-item nav-link">Login as shelter</a>
+                    <a href="@Url.Action("Log","Login")" class="nav-item nav-link">Login</a>
+                }else {
+                    <a href="@Url.Action("LoginShelter","Login")" class="nav-item nav-link">Login as shelter</a>
+                    <a href="@Url.Action("Login","Login")" class="nav-item nav-link">Login</a>
+                    <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
+                    <a href="@Url.Action("about","About")" class="nav-item nav-link">About</a>
+                    <a href="@Url.Action("Service","Service")" class="nav-item nav-link active">Service</a>
+                    <a href="@Url.Action("Product","Product")" class="nav-item nav-link">Product</a>
+                }
+                
+                
+                @*       <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
@@ -88,7 +96,7 @@
                         <a href="blog.html" class="dropdown-item">Blog Grid</a>
                         <a href="detail.html" class="dropdown-item">Blog Detail</a>
                     </div>
-                </div>
+                </div>*@
                 <a href="contact.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Contact <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>

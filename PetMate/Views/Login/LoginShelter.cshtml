@@ -11,25 +11,16 @@
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
-                    <form>
+                    <form asp-action="LoginShelter">
                         <div class="row g-3">
 
 
 
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Address" asp-for="Address" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Address" asp-for="ShelterName" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="number" class="form-control bg-light border-0 px-4" placeholder="The number of your pets" asp-for="PetCount" style="height: 55px;">
-                            </div>
-                            <div class="col-12">
-                                <input type="time" class="form-control bg-light border-0 px-4" placeholder="Your opening & closing time" asp-for="WorkingTime" style="height: 55px;">
-                            </div>
-                            <div class="col-12">
-                                <input type="time" class="form-control bg-light border-0 px-4" placeholder="Your opening & closing time" asp-for="VisitorsTime" style="height: 55px;">
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your opening & closing time" asp-for="Type" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Address" asp-for="ShelterPassword" style="height: 55px;">
                             </div>
                             <div>
                                 <a class="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("RegistrationShelter","Login")">Register</a>

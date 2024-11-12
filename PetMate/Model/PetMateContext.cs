@@ -21,8 +21,6 @@ public partial class PetMateContext : DbContext
 
     public virtual DbSet<Pet> Pets { get; set; }
 
-    public virtual DbSet<PetCharacter> PetCharacters { get; set; }
-
     public virtual DbSet<PhotoOfPet> PhotoOfPets { get; set; }
 
     public virtual DbSet<Shelter> Shelters { get; set; }
@@ -30,8 +28,6 @@ public partial class PetMateContext : DbContext
     public virtual DbSet<Sponsoring> Sponsorings { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<UserCharacter> UserCharacters { get; set; }
 
     public virtual DbSet<VirtualMeeting> VirtualMeetings { get; set; }
 
@@ -44,6 +40,11 @@ public partial class PetMateContext : DbContext
         modelBuilder.Entity<Character>(entity =>
         {
             entity.ToTable("Character");
+
+            entity.Property(e => e.Character1)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("character");
         });
 
         modelBuilder.Entity<GuideVid>(entity =>
@@ -66,19 +67,15 @@ public partial class PetMateContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("breed");
             entity.Property(e => e.Castrated).HasColumnName("castrated");
+            entity.Property(e => e.Character)
+                .HasMaxLength(350)
+                .IsUnicode(false)
+                .HasColumnName("character");
             entity.Property(e => e.ShelterId).HasColumnName("shelterID");
             entity.Property(e => e.Size)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("size");
-        });
-
-        modelBuilder.Entity<PetCharacter>(entity =>
-        {
-            entity.ToTable("petCharacter");
-
-            entity.Property(e => e.CharacterId).HasColumnName("characterID");
-            entity.Property(e => e.PetId).HasColumnName("petID");
         });
 
         modelBuilder.Entity<PhotoOfPet>(entity =>
@@ -123,6 +120,10 @@ public partial class PetMateContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
+            entity.Property(e => e.Character)
+                .HasMaxLength(350)
+                .IsUnicode(false)
+                .HasColumnName("character");
             entity.Property(e => e.Email)
                 .HasMaxLength(70)
                 .IsUnicode(false)
@@ -135,15 +136,6 @@ public partial class PetMateContext : DbContext
                 .HasMaxLength(70)
                 .IsUnicode(false)
                 .HasColumnName("username");
-        });
-
-        modelBuilder.Entity<UserCharacter>(entity =>
-        {
-            entity.ToTable("userCharacter");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.CharacterId).HasColumnName("characterID");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
         modelBuilder.Entity<VirtualMeeting>(entity =>
