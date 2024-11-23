@@ -71,6 +71,9 @@ public partial class PetMateContext : DbContext
                 .HasMaxLength(350)
                 .IsUnicode(false)
                 .HasColumnName("character");
+            entity.Property(e => e.Name)
+                .HasMaxLength(150)
+                .IsUnicode(false);
             entity.Property(e => e.ShelterId).HasColumnName("shelterID");
             entity.Property(e => e.Size)
                 .HasMaxLength(50)

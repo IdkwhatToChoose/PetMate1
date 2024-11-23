@@ -94,6 +94,24 @@ namespace PetMate.Controllers
             }
             return View();
         }
+        //[HttpPost]
+        //public IActionResult LoginShelter(ShelterViewModel shelterVM)
+        //{
+        //    Shelter? user = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
+
+        //    string textPass = shelterVM.ShelterPassword;
+        //    shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
+        //    if (user == null)
+        //    {
+        //        return View();
+        //    }
+        //    else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)
+        //    {
+
+        //        return RedirectToAction("Index", "Home", new { LoggedIn = true });
+        //    }
+        //    return View();
+        //}
         [HttpPost]
         public IActionResult LoginShelter(ShelterViewModel shelterVM)
         {
@@ -108,7 +126,7 @@ namespace PetMate.Controllers
             else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)
             {
 
-                return RedirectToAction("Index", "Home", new { LoggedIn = true });
+                return RedirectToAction("ShelterHomePage", "Shelter");
             }
             return View();
         }

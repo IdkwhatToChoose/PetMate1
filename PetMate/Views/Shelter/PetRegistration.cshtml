@@ -1,8 +1,9 @@
-﻿@model PetMate.ViewModels.UserViewModel
+﻿@model  PetMate.ViewModels.PetVM;
+
 @{
-    Layout = "_Layout";
+    Layout = "_LoggedShelterLayout";
 }
-<form asp-controller="Login" asp-action="Register" method="post">
+<form asp-controller="Shelter" asp-action="PetRegistration" method="post">
     <div class="container-fluid pt-5">
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -11,20 +12,20 @@
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
- 
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Username" style="height: 55px;">
-                            </div>
-                            <div class="col-12">
-                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Email" style="height: 55px;">
-                            </div>
-                            <div class="col-12">
-                                <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Password" style="height: 55px;">
-                            </div>
-                            
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Breed" style="height: 55px;">
                         </div>
-                    
+                        <div class="col-12">
+                            <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Castrated" style="height: 55px;">
+                        </div>
+                        <div class="col-12">
+                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Breed" style="height: 55px;">
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -35,7 +36,7 @@
             </div>
             <div id="hobby-form">
                 <div class="question">
-                    <span>1. How active are you on a daily basis?</span>
+                    <span>1. What is the pet's activity level? </span>
                     <div class="section-container">
                         <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Inactive</span>
                     </div>
@@ -47,15 +48,15 @@
                     </div>
                 </div>
                 <div class="question">
-                    <span>2. Do you have experience with pet ownership?</span>
+                    <span>2. How sociable is the pet with people?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>Yes</span>
+                        <input type="radio" name="radio2" class="option"><span>Shy</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>No</span>
+                        <input type="radio" name="radio2" class="option"><span>Friendly</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>Some</span>
+                        <input type="radio" name="radio2" class="option"><span>Very social</span>
                     </div>
                 </div>
                 <div class="question">
@@ -225,13 +226,13 @@
 
 <style>
     .section-container input[type="radio"] {
-        transform: scale(1.45);
+        transform: scale(1.4);
         margin-right: 12px;
         margin-left: 4px;
     }
         /* .section-container input[type="checkbox"]:checked + .option span {
-                background-color: #4caf50;
-              } */
+                    background-color: #4caf50;
+                  } */
         .section-container input[type="radio"]:checked + span {
             color: #1d5a00;
         }

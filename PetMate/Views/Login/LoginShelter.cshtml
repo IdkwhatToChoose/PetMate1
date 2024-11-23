@@ -2,7 +2,7 @@
 @{
     Layout = "_Layout";
 }
-<form asp-controller="Login" asp-action="Login" method="post">
+@*<form asp-controller="Login" asp-action="Login" method="post">
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -33,4 +33,34 @@
                 </div>
             </div>
         </div>
-</form>
+</form>*@
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
+            <h6 class="text-primary text-uppercase">Contact Us</h6>
+            <h1 class="display-5 text-uppercase mb-0">Please Feel Free To Contact Us</h1>
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-7">
+                <form asp-action="LoginShelter" asp-controller="Login" method="post" enctype="multipart/form-data">
+                    <div class="row g-3">
+
+
+
+                        <div class="col-12">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your shelter's name'" asp-for="ShelterName" style="height: 55px;">
+                        </div>
+                        <div class="col-12">
+                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Your shelter's password" asp-for="ShelterPassword" style="height: 55px;">
+                        </div>
+                        <div>
+                            <a class="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("RegistrationShelter","Login")">Register</a>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
