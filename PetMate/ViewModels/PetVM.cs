@@ -16,6 +16,9 @@
 
         public string? Character { get; set; }
 
-        public string? Answers { get; set; }
+        public int Age { get; set; }
+
+        public string Name { get; set; } = null!;
+        public string Answers { get; set; }
     }
 }

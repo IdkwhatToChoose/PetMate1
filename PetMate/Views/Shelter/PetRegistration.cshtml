@@ -15,7 +15,7 @@
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Breed" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Name" style="height: 55px;">
                         </div>
                         <div class="col-12">
                             <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Castrated" style="height: 55px;">
@@ -60,147 +60,126 @@
                     </div>
                 </div>
                 <div class="question">
-                    <span>3. What is your living situation?</span>
+                    <span>3. How does the pet interact with other animals?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>Apartment</span>
+                        <input type="radio" name="radio3" class="option"><span>Avoidant</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>House with Yard</span>
+                        <input type="radio" name="radio3" class="option"><span>Neutral</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>Rural property</span>
-                    </div>
-                </div>
-                <div class="question">
-                    <span>4. How often are you at home during the day?</span>
-                    <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>Rarely</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>Part-time</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>Mostly at home</span>
+                        <input type="radio" name="radio3" class="option"><span>Playful</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>5. Do you have other pets?</span>
+                    <span>4. What level of grooming does the pet require?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>Yes</span>
+                        <input type="radio" name="radio4" class="option"><span>Low</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>No</span>
+                        <input type="radio" name="radio4" class="option"><span>Average</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>Planning to get one</span>
+                        <input type="radio" name="radio4" class="option"><span>High</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>6. Are there children in your household?</span>
+                    <span>5. How vocal is the pet?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio6" class="option"><span>Yes, full-time</span>
+                        <input type="radio" name="radio5" class="option"><span>Quiet</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio6" class="option"><span>Yes, part-time</span>
+                        <input type="radio" name="radio5" class="option"><span>Average</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="radio" name="radio5" class="option"><span>Talkative</span>
+                    </div>
+                </div>
+                <div class="question">
+                    <span>6. Is the pet trained?</span>
+                    <div class="section-container">
+                        <input type="radio" name="radio6" class="option"><span>Yes, fully trained</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="radio" name="radio6" class="option"><span>Yes, partially trained</span>
                     </div>
                     <div class="section-container">
                         <input type="radio" name="radio6" class="option"><span>No</span>
                     </div>
                 </div>
+              
                 <div class="question">
-                    <span>
-                        7. How much time can you commit to pet care daily?
-                    </span>
+                    <span>7. Does the pet have special needs or medical requirements? </span>
                     <div class="section-container">
-                        <input type="radio" name="radio7" class="option"><span>Less than 1 hour</span>
+                        <input type="radio" name="radio8" class="option"><span>Yes</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio7" class="option"><span>1–3 hours</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio7" class="option"><span>More than 3 hours</span>
+                        <input type="radio" name="radio8" class="option"><span>No</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>8. What’s your preferred level of pet maintenance?</span>
+                    <span>8. What type of living environment is best for this pet? </span>
                     <div class="section-container">
-                        <input type="radio" name="radio8" class="option"><span>Low</span>
+                        <input type="radio" name="radio9" class="option"><span>Apartment</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio8" class="option"><span>Average</span>
+                        <input type="radio" name="radio9" class="option"><span>House with Yard</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio8" class="option"><span>High</span>
-                    </div>
-                </div>
-                <div class="question">
-                    <span>9. Do you prefer a pet that is independent or interactive?</span>
-                    <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>Very independent</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>Somewhat independent</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>Very Interactive</span>
+                        <input type="radio" name="radio9" class="option"><span>Rural property</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>10. Are you comfortable with pets that require regular grooming?</span>
+                    <span>9. How independent is the pet?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio10" class="option"><span>Yes</span>
+                        <input type="radio" name="radio10" class="option"><span>Very Independent</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio10" class="option"><span>No</span>
-                    </div>
-                </div>
-                <div class="question">
-                    <span>11. What’s your tolerance for noise or vocalizations (barking, meowing)?</span>
-                    <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>Low tolerance</span>
+                        <input type="radio" name="radio10" class="option"><span>Moderately Dependent</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>Average tolerance</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>High tolerance</span>
+                        <input type="radio" name="radio10" class="option"><span>Very Dependent</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>12. How would you rate your tolerance for pet-related cleaning?</span>
+                    <span>10. How well does the pet tolerate children?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio12" class="option"><span>High</span>
+                        <input type="radio" name="radio11" class="option"><span>Not suitable</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="radio" name="radio11" class="option"><span>Neutral</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="radio" name="radio11" class="option"><span>Very tolarent</span>
+                    </div>
+                </div>
+                <div class="question">
+                    <span>11. What type of climate does the pet prefer?</span>
+                    <div class="section-container">
+                        <input type="radio" name="radio12" class="option"><span>Cool</span>
                     </div>
                     <div class="section-container">
                         <input type="radio" name="radio12" class="option"><span>Average</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio12" class="option"><span>Low</span>
+                        <input type="radio" name="radio12" class="option"><span>Warm</span>
                     </div>
                 </div>
                 <div class="question">
-                    <span>13.Are you comfortable with pets that may have special needs?</span>
+                    <span>12 .What is the pet’s preferred level of interaction?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio13" class="option"><span>Yes</span>
+                        <input type="radio" name="radio13" class="option"><span>Minimal</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio13" class="option"><span>No</span>
-                    </div>
-                </div>
-                <div class="question">
-                    <span>14. Do you travel frequently, and would your pet travel with you?</span>
-                    <div class="section-container">
-                        <input type="radio" name="radio14" class="option"><span>Yes, and they would travel with me</span>
+                        <input type="radio" name="radio13" class="option"><span>Average</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio14" class="option"><span>Yes, but they would stay at home</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio14" class="option"><span>No</span>
+                        <input type="radio" name="radio13" class="option"><span>High</span>
                     </div>
                 </div>
+                
                 <div class="question">
-                    <span>15. What qualities are most important in your ideal pet (You can select more than once)?</span>
+                    <span>13. What is the pet's temperment?</span>
                     <div class="section-container">
                         <input type="checkbox" name="radio15" class="option"><span>Calm</span>
                     </div>
