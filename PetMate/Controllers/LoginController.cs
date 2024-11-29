@@ -115,11 +115,11 @@ namespace PetMate.Controllers
         [HttpPost]
         public IActionResult LoginShelter(ShelterViewModel shelterVM)
         {
-            Shelter? user = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
+            Shelter? shelter = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
 
             string textPass = shelterVM.ShelterPassword;
             shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
-            if (user == null)
+            if (shelter == null)
             {
                 return View();
             }

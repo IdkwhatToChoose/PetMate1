@@ -22,4 +22,6 @@ public partial class Pet
     public int Age { get; set; }
 
     public string Name { get; set; } = null!;
+
+    public virtual Shelter Shelter { get; set; } = null!;
 }

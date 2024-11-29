@@ -20,4 +20,6 @@ public partial class Shelter
     public string? ShelterName { get; set; }
 
     public string ShelterPassword { get; set; } = null!;
+
+    public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
 }
