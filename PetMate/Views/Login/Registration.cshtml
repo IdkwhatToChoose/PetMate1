@@ -1,8 +1,8 @@
-﻿@model PetMate.ViewModels.UserViewModel
+﻿@model PetMate.ViewModels.PetVM
 @{
     Layout = "_Layout";
 }
-<form asp-controller="Login" asp-action="Register" method="post">
+<form asp-controller="Pet" asp-action="Registration" method="post">
     <div class="container-fluid pt-5">
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -14,14 +14,20 @@
  
                         <div class="row g-3">
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Username" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Name" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Email" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Password" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
                             </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Size" style="height: 55px;">
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Castrated" style="height: 55px;">
+                        </div>
                             
                         </div>
                     

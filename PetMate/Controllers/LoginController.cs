@@ -10,6 +10,9 @@ using System.Reflection.PortableExecutable;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.SqlServer.Server;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace PetMate.Controllers
 {
@@ -19,7 +22,7 @@ namespace PetMate.Controllers
         private readonly IUserAndShelterManager usermanager;
         private readonly string questions = "1.How active are you on a daily basis?, 2. Do you have experience with pet ownership?, 3. What is your living situation?, 4. How often are you at home during the day?, 5. Do you have other pets?, 6. Are there children in your household?, 7. How much time can you commit to pet care daily?, 8. What’s your preferred level of pet maintenance?, 9. Do you prefer a pet that is independent or interactive?, 10. Are you comfortable with pets that require regular grooming?, 11. What’s your tolerance for noise or vocalizations (barking, meowing)?, 12. How would you rate your tolerance for pet-related cleaning?, 13. Are you comfortable with pets that may have special needs?, 14. Do you travel frequently, and would your pet travel with you?, 15. What qualities are most important in your ideal pet?";
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
-        private string explanation = "Im making a website where characteristics of the user will be displyed in his profile based on his answers on questions"; 
+        private string explanation = "Im making a website where characteristics of the user will be displyed in his profile based on his answers on questions";
         private readonly string[] charactersitics = Enum.GetNames(typeof(Characteristics.Characteristics));
 
         public LoginController(IUserAndShelterManager _userManager)
@@ -63,9 +66,9 @@ namespace PetMate.Controllers
         }
         public string AnalyseAnswers(string answers)
         {
-           string answer = GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " +$"The last question is multiple choice, so the numbers 15 and above are the answers to the question.Also only print the chosen characteristics.");
-            string[] userChar=answer.Split(':');
-            string result = userChar[1].Replace("-",", ");
+            string answer = GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 15 and above are the answers to the question.Also only print the chosen characteristics.");
+            string[] userChar = answer.Split(':');
+            string result = userChar[1].Replace("-", ", ");
             return result;
         }
 
@@ -77,7 +80,7 @@ namespace PetMate.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserViewModel userVM)
+        async public Task<IActionResult> Login(UserViewModel userVM)
         {
             User? user = db.Users.FirstOrDefault(x => x.Email == userVM.Email);
 
@@ -89,31 +92,16 @@ namespace PetMate.Controllers
             }
             else if (BCrypt.Net.BCrypt.Verify(textPass, userVM.Password) == true)
             {
+                await usermanager.SetUserCookie(HttpContext, user.Id, user.Email);
+                
+                return RedirectToAction("UserHomePage","User");
 
-                return RedirectToAction("Index", "Home", new {LoggedIn=true});
             }
             return View();
         }
-        //[HttpPost]
-        //public IActionResult LoginShelter(ShelterViewModel shelterVM)
-        //{
-        //    Shelter? user = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
 
-        //    string textPass = shelterVM.ShelterPassword;
-        //    shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
-        //    if (user == null)
-        //    {
-        //        return View();
-        //    }
-        //    else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)
-        //    {
-
-        //        return RedirectToAction("Index", "Home", new { LoggedIn = true });
-        //    }
-        //    return View();
-        //}
         [HttpPost]
-        public IActionResult LoginShelter(ShelterViewModel shelterVM)
+      async public Task<IActionResult> LoginShelter(ShelterViewModel shelterVM)
         {
             Shelter? shelter = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
 
@@ -125,7 +113,7 @@ namespace PetMate.Controllers
             }
             else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)
             {
-
+                await usermanager.SetShelterCookie(HttpContext, shelter.Id);
                 return RedirectToAction("ShelterHomePage", "Shelter");
             }
             return View();
@@ -162,5 +150,8 @@ namespace PetMate.Controllers
                 return "An error occurred: " + ex.Message;
             }
         }
+
+
+   
     }
 }

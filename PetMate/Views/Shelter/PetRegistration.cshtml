@@ -3,7 +3,7 @@
 @{
     Layout = "_LoggedShelterLayout";
 }
-<form asp-controller="Shelter" asp-action="PetRegistration" method="post">
+<form asp-controller="Shelter" asp-action="PetRegistration" method="post" enctype="multipart/form-data">
     <div class="container-fluid pt-5">
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -15,17 +15,23 @@
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Name" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Name" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Age" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="email" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Castrated" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Castration?" asp-for="Castrated" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Breed" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
                         </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Size" style="height: 55px;">
+                        </div>
+                        @*<div class="col-12">
+                            <input type="file" class="form-control bg-light border-0 px-4" placeholder="Photos" asp-for="Breed" multiple="TRUE" style="height: 55px;">
+                        </div>*@
 
                     </div>
 

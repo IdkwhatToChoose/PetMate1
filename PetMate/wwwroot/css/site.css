@@ -2,22 +2,22 @@
 
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 /********** Template CSS **********/
 :root {
@@ -478,8 +478,8 @@ body {
     width: 50px;
 }
 
-.registr-container{
-    margin-top:2%;
+.registr-container {
+    margin-top: 2%;
 }
 /*----------         --------------      -------------      -------------      Habit form | */
 #hobby-form * {
@@ -528,3 +528,8 @@ body {
     .section-container input[type="checkbox"]:checked + span {
         color: #1d5a00;
     }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:slnt,wght@7,100..1000&family=Edu+AU+VIC+WA+NT+Dots:wght@400..700&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sixtyfour+Convergence&display=swap'); */
+
+
+

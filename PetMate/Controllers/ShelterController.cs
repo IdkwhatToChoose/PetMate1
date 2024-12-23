@@ -5,6 +5,7 @@ using PetMate.Controllers;
 using PetMate.Model;
 using PetMate.ViewModels;
 using System.ClientModel;
+using System.Security.Claims;
 
 namespace PetMate.Controllers
 {
@@ -27,13 +28,18 @@ namespace PetMate.Controllers
         [HttpPost]
         public IActionResult PetRegistration(PetVM petVM)
         {
+            var shelterID = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
+
             Pet newPet = new Pet();
 
             newPet.Name = petVM.Name;
             newPet.Size = petVM.Size;
             newPet.Age = petVM.Age;
             newPet.Castrated = petVM.Castrated;
+            newPet.Breed=petVM.Breed;
+            newPet.ShelterId = shelterID;
             newPet.Character = AnalyseAnswers(petVM.Answers);
+            
             db.Pets.Add(newPet);
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
