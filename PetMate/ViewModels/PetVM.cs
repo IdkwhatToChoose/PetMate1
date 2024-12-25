@@ -19,6 +19,9 @@
         public int Age { get; set; }
 
         public string Name { get; set; } = null!;
+
+        public IFormFile? Image { get; set; }
+
         public string Answers { get; set; }
     }
 }

@@ -56,5 +56,6 @@ namespace PetMate.Helpers
                 });
         }
 
+        public string SetPetPhoto(PetVM pet);
     }
 }

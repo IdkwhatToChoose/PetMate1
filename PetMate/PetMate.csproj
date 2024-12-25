@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Registration\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>

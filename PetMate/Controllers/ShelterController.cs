@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OpenAI.Chat;
 using PetMate.Controllers;
+using PetMate.Helpers;
 using PetMate.Model;
 using PetMate.ViewModels;
 using System.ClientModel;
@@ -12,10 +13,16 @@ namespace PetMate.Controllers
     public class ShelterController : Controller
     {
         PetMateContext db=new PetMateContext();
+        private readonly IUserAndShelterManager usermanager;
         private readonly string questions = "What is the pet's activity level?, 2. How sociable is the pet with people?, 3. How does the pet interact with other animals?, 4. What level of grooming does the pet require?, 5. How vocal is the pet?, 6. Is the pet trained?, 7. Does the pet have special needs or medical requirements?, 8. What type of living environment is best for this pet?, 9. How independent is the pet?, 10. How well does the pet tolerate children?, 11. What type of climate does the pet prefer?, 12. What is the pet's preferred level of interaction?, 13. What is the pet's temperament?";
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
         private string explanation = "Im making a website where characteristics of the resgistered pet will be displyed in its profile based on the answers on questions";
         private readonly string[] charactersitics = Enum.GetNames(typeof(Characteristics.Characteristics));
+
+        public ShelterController(IUserAndShelterManager _userManager)
+        {
+            usermanager = _userManager;
+        }
 
         public IActionResult ShelterHomePage()
         {
@@ -29,7 +36,7 @@ namespace PetMate.Controllers
         public IActionResult PetRegistration(PetVM petVM)
         {
             var shelterID = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
-
+            PhotoOfPet photo=new PhotoOfPet();
             Pet newPet = new Pet();
 
             newPet.Name = petVM.Name;
@@ -38,10 +45,21 @@ namespace PetMate.Controllers
             newPet.Castrated = petVM.Castrated;
             newPet.Breed=petVM.Breed;
             newPet.ShelterId = shelterID;
+
+            photo.PetId= petVM.Id;
+            photo.ImageName = usermanager.SetPetPhoto(petVM);
             newPet.Character = AnalyseAnswers(petVM.Answers);
-            
-            db.Pets.Add(newPet);
-            db.SaveChanges();
+            try
+            {
+                db.PhotoOfPets.Add(photo);
+                db.Pets.Add(newPet);
+                db.SaveChanges();
+
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
             return RedirectToAction("Index", "Home");
         }
         public string AnalyseAnswers(string answers)
