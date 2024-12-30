@@ -33,7 +33,7 @@ public partial class PetMateContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOPCOMP;Initial Catalog=PetMate;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOPCOMP;Initial Catalog=PetMate;Trusted_Connection=True;Encrypt=False;Integrated Security=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -90,11 +90,9 @@ public partial class PetMateContext : DbContext
         {
             entity.ToTable("photoOfPet");
 
-            entity.Property(e => e.Image)
-                .HasColumnType("image")
-                .HasColumnName("image");
+            entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.ImageName)
-                .HasMaxLength(150)
+                .HasMaxLength(350)
                 .IsUnicode(false)
                 .HasColumnName("imageName");
             entity.Property(e => e.PetId).HasColumnName("petID");

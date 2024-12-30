@@ -302,7 +302,7 @@ body {
         }
 
 .bg-offer {
-    background: url(../img/offer.jpg) top right no-repeat;
+    background: url(file:///D:/NOIT/pet-shop-website-template/img/offer.jpg) top right no-repeat;
     background-size: cover;
 }
 
@@ -528,6 +528,14 @@ body {
     .section-container input[type="checkbox"]:checked + span {
         color: #1d5a00;
     }
+
+
+.castration input[type="checkbox"]{
+    transform:scale(1.43);
+    margin-right:15px;
+    font-size:24px;
+   
+}
 
 /* @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:slnt,wght@7,100..1000&family=Edu+AU+VIC+WA+NT+Dots:wght@400..700&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sixtyfour+Convergence&display=swap'); */
 

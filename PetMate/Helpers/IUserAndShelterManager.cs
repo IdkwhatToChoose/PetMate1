@@ -56,6 +56,8 @@ namespace PetMate.Helpers
                 });
         }
 
-        public string SetPetPhoto(PetVM pet);
+        public (byte[] imageBytes, string imageName) SetPhoto(IFormFile imageFile);
+
+
     }
 }

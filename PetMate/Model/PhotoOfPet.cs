@@ -7,7 +7,7 @@ public partial class PhotoOfPet
 {
     public byte[]? Image { get; set; }
 
-    public string ImageName { get; set; } = null!;
+    public string? ImageName { get; set; }
 
     public int Id { get; set; }
 

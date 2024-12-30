@@ -1,13 +1,15 @@
 ﻿namespace PetMate.Helpers
 {
-  using Microsoft.AspNetCore.Authentication.Cookies;
-  using Microsoft.AspNetCore.Authentication;
-  using PetMate.Model;
-  using PetMate.ViewModels;
-  using System.Security.Claims;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authentication;
+    using PetMate.Model;
+    using PetMate.ViewModels;
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc;
 
-  public class UserAndShelterManager : IUserAndShelterManager
-  {
+    public class UserAndShelterManager : IUserAndShelterManager
+    {
         private readonly IWebHostEnvironment _environment;
 
         public UserAndShelterManager()
@@ -45,24 +47,20 @@
 
             return newShelter;
         }
-        public string SetPetPhoto(PetVM pet)
+        public (byte[] imageBytes,string imageName) SetPhoto(IFormFile imageFile)
         {
-            var path = _environment.WebRootPath;
-            IFormFile? image = pet.Image;
-            if (image != null && image.Length > 0)
+
+            if (imageFile == null || imageFile.Length == 0)
+                return (null,null);
+
+            using (var memoryStream = new MemoryStream())
             {
-                var filePath = Path.Combine(path, "uploads", image.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyToAsync(stream);
-                }
-
-                return image.FileName;
-
+                imageFile.CopyTo(memoryStream);
+                return (memoryStream.ToArray(), imageFile.FileName);
             }
-            return null;
-
         }
 
-  }
+
+
+    }
 }

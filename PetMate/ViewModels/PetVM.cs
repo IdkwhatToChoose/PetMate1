@@ -6,7 +6,7 @@
 
         public string Size { get; set; } = null!;
 
-        public bool Castrated { get; set; }
+        public string Castrated { get; set; }
 
         public int Id { get; set; }
 

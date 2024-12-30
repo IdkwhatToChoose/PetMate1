@@ -20,9 +20,7 @@
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
                         </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Castration?" asp-for="Castrated" style="height: 55px;">
-                        </div>
+                        
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
                         </div>
@@ -32,7 +30,13 @@
                         <div class="col-12">
                             <input type="file" class="form-control bg-light border-0 px-4" placeholder="Photos" asp-for="Image" multiple="TRUE" style="height: 55px;">
                         </div>
-
+                        <div class="col-12 castration">
+                            <div class="form-control pa-4">
+                                <input type="checkbox" value="@true" id="check" name="check" />
+                                <label for="check">Castrated</label>
+                                <input id="castr" hidden asp-for="Castrated" />
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -242,6 +246,12 @@
         p.value = sell.join(", ");
     }
 
+    let field=document.getElementById("castr");
+    let check=document.getElementById("check");
+    field.value=false;
+    check.addEventListener('change', () => {
+        field.value = check.checked;
+    });
 
 
 </script>

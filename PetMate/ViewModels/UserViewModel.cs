@@ -11,5 +11,7 @@
         public string? Password { get; set; }
 
         public string Answers { get; set; }
+
+        public string? Valid { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model PetMate.ViewModels.UserViewModel
+
 @{
     Layout = "_Layout";
 }
@@ -30,7 +31,12 @@
                                 <a class ="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("Registration","Login")">Register</a>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" manifest="">Login</button>
+                            </div>
+                            <div class="col-12">
+                                <div class="err py-2" >
+                                    <h5>Wrong password or username </h5>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -38,3 +44,14 @@
         </div>
     </div>
 </form>
+<style>
+    .err {
+        background-color: rgba(241, 3, 3, 0.829);
+        text-transform: uppercase;
+        text-align: center;
+    }
+    h5 {
+        color: white;
+   }
+</style>
+

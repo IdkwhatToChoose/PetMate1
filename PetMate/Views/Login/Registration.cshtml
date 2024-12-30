@@ -1,8 +1,8 @@
-﻿@model PetMate.ViewModels.PetVM
+﻿@model PetMate.ViewModels.UserViewModel
 @{
     Layout = "_Layout";
 }
-<form asp-controller="Pet" asp-action="Registration" method="post">
+<form asp-controller="Login" asp-action="Register" method="post" >
     <div class="container-fluid pt-5">
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -14,21 +14,14 @@
  
                         <div class="row g-3">
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Name" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Username" asp-for="Username" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Email" asp-for="Email" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Password" style="height: 55px;">
                             </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Size" style="height: 55px;">
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Castrated" style="height: 55px;">
-                        </div>
-                            
                         </div>
                     
                 </div>
@@ -205,7 +198,7 @@
                     </div>
                 </div>
                 <div class="question">
-                    <span>15. What qualities are most important in your ideal pet (You can select more than once)?</span>
+                    <span>15. What qualities are most important in your ideal pet (You can select more than one)?</span>
                     <div class="section-container">
                         <input type="checkbox" name="radio15" class="option"><span>Calm</span>
                     </div>
@@ -218,12 +211,13 @@
                     <div class="section-container">
                         <input type="checkbox" name="radio15" class="option"><span>Affectionate</span>
                     </div>
-                    <input type="text" id="answers" hidden asp-for="Answers" />
+
                 </div>
                 <div class="col-11">
-                    <button onclick="SeeChecked()" class="btn btn-primary w-100 py-3">Done  ✔ </button>
+                    <button onclick="Call()" class="btn btn-primary w-100 py-3">Done  ✔ </button>
                 </div>
-
+                <input type="text" id="answers" hidden asp-for="Answers" />
+                <input type="text" asp-for="Valid" id="vField" hidden/>
             </div>
         </div>
 
@@ -243,22 +237,4 @@
         }
 </style>
 
-<script>
-    function SeeChecked() {
-        let sell = [];
-        const questions = document.querySelectorAll(".question span:first-child");
-        const checkboxesValue = document.querySelectorAll("input[type='radio']:checked + span,input[type='checkbox']:checked + span");
-        let p = document.getElementById('answers');
-        let counter = 1;
-        // Loop through each selected span and get its text content
-        checkboxesValue.forEach(span => {
-            sell.push(`${counter}. ` + span.textContent.trim()); // Add text content to the array
-            counter++;
-        });
-
-        p.value = sell.join(", ");
-    }
-
-
-
-</script>
+<script src="/js/site.js"></script>
