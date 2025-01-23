@@ -1,7 +1,8 @@
 ﻿@{
-    Layout = "_LoggedUserLayout";
+    Layout = "_LoggedShelterLayout";
+    bool castrated = bool.TryParse(Model.Castrated, out _);
 }
-
+@model PetMate.ViewModels.PetVM;
 
 
 <html>
@@ -10,25 +11,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://rawgit.com/LeshikJanz/libraries/master/Bootstrap/baguetteBox.min.css">
+    
     <link rel="stylesheet" href="/css/dogProfile.css" />
-    <title>Freebie: 4 Bootstrap Gallery Templates</title>
+    <title></title>
 </head>
 <body>
 
     <div class="wrapper">
+
         <div class="name comps">
             <h3>This is</h3>
-            <h1>Bruno</h1>
+            <h1>@Model.Name</h1>
         </div>
 
         <div class="other-info">
-            <p>She is a golden retriever</p>
-            <p>He is 5 years old</p>
+            <p>He is a @Model.Breed</p>
+            <p>He is @Model.Age years old</p>
             <p>He is rather small</p>
-            <p>He is castrated</p>
+            @if (castrated)
+            {
+                <p>He is castrated</p>
+            }
+            else
+            {
+                <p>He isn't castrated</p>
+            }
+
         </div>
 
         <div class="wrap-gallery-and-sub">
@@ -86,13 +94,13 @@
         </div>
         <div class="actions">
             <button>REQUEST A VISIT</button>
-            <button>ASK ABOUT BRUNO</button>
+            <button>ASK ABOUT @Model.Name.ToUpper()</button>
         </div>
         <div class="other-pets">
             <div class="container-fluid py-5">
                 <div class="container">
                     <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                        <h5 class="text-primary text-uppercase">If you love *petname*</h5>
+                        <h5 class="text-primary text-uppercase">If you love @Model.Name</h5>
                         <h1 class="display-5 text-uppercase mb-0">You also might love</h1>
                     </div>
                     <div class="owl-carousel team-carousel position-relative" style="padding-right: 25px;">

@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using PetMate.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
+var appass = builder.Configuration["appass"];
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserAndShelterManager, UserAndShelterManager>();
+builder.Services.AddScoped<IFileManager, FileManager>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -15,6 +17,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // HTTPS only
     });
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -35,5 +38,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "Calendar",
+    pattern: "Calendar",
+    defaults: new { controller = "Shelter", action = "Index" });
+
 
 app.Run();

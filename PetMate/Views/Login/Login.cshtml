@@ -14,9 +14,7 @@
                 <div class="col-lg-7">
                     <form>
                         <div class="row g-3">
-                           
-                                
-                            
+                          
                             <div class="col-12">
                                 <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Username" style="height: 55px;">
                             </div>
@@ -27,17 +25,13 @@
                             <div class="col-12">
                                 <input type="password" class="form-control bg-light border-0 px-4" placeholder="Password" asp-for="Password" style="height: 55px;">
                             </div>
-                            <div>
-                                <a class ="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("Registration","Login")">Register</a>
-                            </div>
+                            @*<div>
+                                <a class="btn-info form-control border-0 px-4" style="height: 55px;" href="@Url.Action("Registration","Login")">Register</a>
+                            </div>*@
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit" manifest="">Login</button>
+                                <p class="form-control border-0 background-0">Don't have an account? Register <a href="@Url.Action("Registration","Login")">here</a></p>
                             </div>
-                            <div class="col-12">
-                                <div class="err py-2" >
-                                    <h5>Wrong password or username </h5>
-                                </div>
-                            </div>
+                          
                         </div>
                     </form>
                 </div>

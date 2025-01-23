@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace PetMate.Controllers
 {
@@ -37,6 +38,7 @@ namespace PetMate.Controllers
         }
         public IActionResult Registration()
         {
+            //UserViewModel uvm=new UserViewModel();
             return View();
         }
         public IActionResult HabitForm()
@@ -58,11 +60,18 @@ namespace PetMate.Controllers
         [HttpPost]
         public IActionResult Register(UserViewModel userVM)
         {
-            User user = usermanager.UserRegister(userVM);//Adds to database 
-            user.Character = AnalyseAnswers(userVM.Answers);
-            db.Users.Add(user);
-            db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            bool validForm=bool.Parse(userVM.Valid);
+
+            if (validForm)
+            {
+                User user = usermanager.UserRegister(userVM);//Sets user body, except characteristics
+                user.Character = AnalyseAnswers(userVM.Answers);
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Registration", "Login");
         }
         public string AnalyseAnswers(string answers)
         {
@@ -72,18 +81,15 @@ namespace PetMate.Controllers
             return result;
         }
 
-        [HttpGet]
         public IActionResult Login()
         {
-
             return View();
         }
 
         [HttpPost]
-        async public Task<IActionResult> Login(UserViewModel userVM)
+        public async Task<IActionResult> Login(UserViewModel userVM)
         {
             User? user = db.Users.FirstOrDefault(x => x.Email == userVM.Email);
-
             string textPass = userVM.Password;
             userVM.Password = BCrypt.Net.BCrypt.HashPassword(userVM.Password);
             if (user == null)
@@ -103,7 +109,7 @@ namespace PetMate.Controllers
         [HttpPost]
       async public Task<IActionResult> LoginShelter(ShelterViewModel shelterVM)
         {
-            Shelter? shelter = db.Shelters.FirstOrDefault(x => x.ShelterName == shelterVM.ShelterName);
+            Shelter? shelter = await db.Shelters.FirstOrDefaultAsync(x => x.ShelterName == shelterVM.ShelterName);
 
             string textPass = shelterVM.ShelterPassword;
             shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);

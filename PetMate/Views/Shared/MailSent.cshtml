@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail sent !</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="header">
+            <i class="icf-mail"></i>
+            <h2>Your email was sent successfully!</h2>
+        </div>
+        <div class="c-body">
+            <p>Thank you! Your email was sent successfully. We will reply as soon as possible. If you need quick help, please contact us directly. We appreciate your message and hope you have a great day!</p>
+            <button><a href="@Url.Action("Index","Home")" class="nav-item nav-link">Go Home</a></button>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    html,
+    body {
+        height: 90%;
+        width: 100%;
+    }
+
+    body {
+        display: flex;
+        font-family: Arial, sans-serif;
+    }
+
+    .wrap {
+        width: 40%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .c-body {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        font-size: 18px;
+        line-height: 1.75em;
+        p
+
+    {
+        color: rgb(29, 29, 29);
+    }
+
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        width: 10em;
+        font-size: 1em;
+        color: white;
+        font-weight: bold;
+        background-color: rgb(61, 214, 0);
+        border: none;
+        border-radius: 5px;
+    }
+
+    .icf-mail {
+        display: inline-block;
+        width: 9em;
+        height: 9em;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2308e609' d='M2.004 9.303A4.5 4.5 0 0 1 6.5 5h19a4.5 4.5 0 0 1 4.496 4.303l-1.476.82L16 16.864L3.48 10.123zM2 11.588V22.5A4.5 4.5 0 0 0 6.5 27h19a4.5 4.5 0 0 0 4.5-4.5V11.588l-.526.293l-13 7a1 1 0 0 1-.948 0L2.514 11.874z'/%3E%3C/svg%3E");
+    }
+</style>

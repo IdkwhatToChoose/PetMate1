@@ -1,0 +1,90 @@
+﻿@model List<PetMate.ViewModels.PetVM>
+@inject PetMate.Helpers.IFileManager file
+
+@{
+    Layout = "_Layout";
+
+    int currentPage = ViewBag.CurrentPage;
+    var totalPages = ViewBag.TotalPages;
+}
+<div class="gallery">
+    @foreach (var pet in Model)
+    {
+        <div class="gallery-item">
+            <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="@pet.Name" />
+            <p>@pet.Name</p>
+        </div>
+    }
+</div>
+
+<div class="pagination">
+    @if (currentPage > 1)
+    {
+        <a href="@Url.Action("Gallery","Home", new { page = currentPage - 1 })">Previous</a>
+    }
+
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        if (i == currentPage)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="@Url.Action("Gallery","Home", new { page = i })">@i</a>
+        }
+    }
+
+    @if (currentPage < totalPages)
+    {
+        <a href="@Url.Action("Gallery","Home", new { page = currentPage + 1 })">Next</a>
+    }
+       
+</div>
+
+<style>
+    .gallery {
+        display:flex;
+        flex-direction: row;
+        width:100vw;
+        height:100vh;
+        flex-wrap:wrap;
+    }
+    .gallery-item{
+        margin:27px;
+    }
+    
+    .gallery-item img {
+        width:20em;
+        height:20em;
+        flex-basis:200;
+        border-radius: 5px;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+        position:relative;
+    }
+
+        .pagination a, .pagination span {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .pagination span {
+            font-weight: bold;
+            background-color: #eee;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+        .items-per-page{
+            display:flex;
+    
+        }
+</style>

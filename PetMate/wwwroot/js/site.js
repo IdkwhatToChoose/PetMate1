@@ -9,6 +9,7 @@ function Call() {
 }
 
 function SeeCheckedAnswers() {
+    Validate();
     let sell = [];
     const questions = document.querySelectorAll(".question span:first-child");
     const checkboxesValue = document.querySelectorAll("input[type='radio']:checked + span,input[type='checkbox']:checked + span");
@@ -25,16 +26,18 @@ function SeeCheckedAnswers() {
 
 function Validate() {
     let radios = document.querySelectorAll('.option');
-    let text = document.querySelector('p');
+    let text = document.getElementById('erField');
+    let vField = document.getElementById('vField');
     let count = 0;
     radios.forEach((radio) => {
         if (radio.checked) {
             count++;
         }
     });
-    if (count >=15) {
-        text.innerHTML = 'You have selected all the radio buttons';
+    if (count >= 15) {
+        vField.value = 'true';
     } else {
-        text.innerHTML = 'You have not selected all the radio buttons';
+        vField.value = 'false';
+        text.innerHTML = 'Please answer all of the questions!';
     }
 }

@@ -1,5 +1,7 @@
 ﻿
-@model List<PetMate.Model.PhotoOfPet>
+@model List<PetMate.ViewModels.PetVM>
+@inject PetMate.Helpers.IFileManager file
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -217,21 +219,20 @@
                 <h1 class="display-5 text-uppercase mb-0">Qualified Pets Care Professionals</h1>
             </div>
             <div class="owl-carousel team-carousel position-relative" style="padding-right: 25px;">
-                @foreach (var photo in Model)
+                @foreach (var pet in Model)
                 {
                 <div class="team-item">
                     <div class="position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
+                            <img class="img-fluid w-100" src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="yeah">
                         <div class="team-overlay">
                             <div class="d-flex align-items-center justify-content-start">
-                                <a class="btn btn-light btn-square mx-1" href="#"><i class="bi bi-twitter"></i></a>
-                                <a class="btn btn-light btn-square mx-1" href="#"><i class="bi bi-facebook"></i></a>
-                                <a class="btn btn-light btn-square mx-1" href="#"><i class="bi bi-linkedin"></i></a>
+                                <a class="btn btn-light btn-square mx-1" href="@Url.Action("PetProfile","Pet",new{id=pet.Id,img= pet.Image.GetHashCode()})"><i class="bi bi-twitter"></i></a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="bg-light text-center p-4">
-                        <h5 class="text-uppercase"></h5>
+                            <h5 class="text-uppercase"></h5>
                         <p class="m-0">Designation</p>
                     </div>
                 </div>

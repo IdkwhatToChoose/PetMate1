@@ -1,6 +1,7 @@
 ﻿@model PetMate.ViewModels.UserViewModel
 @{
     Layout = "_Layout";
+
 }
 <form asp-controller="Login" asp-action="Register" method="post" >
     <div class="container-fluid pt-5">
@@ -8,6 +9,9 @@
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
                 <h6 class="text-primary text-uppercase">Contact Us</h6>
                 <h1 class="display-5 text-uppercase mb-0">Registration</h1>
+
+                    <p style="color:red">@ViewBag.ErrMsg</p>
+                
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
@@ -214,8 +218,9 @@
 
                 </div>
                 <div class="col-11">
-                    <button onclick="Call()" class="btn btn-primary w-100 py-3">Done  ✔ </button>
+                    <button onclick="SeeCheckedAnswers()" class="btn btn-primary w-100 py-3">Done  ✔ </button>
                 </div>
+                <p id="erField"></p>
                 <input type="text" id="answers" hidden asp-for="Answers" />
                 <input type="text" asp-for="Valid" id="vField" hidden/>
             </div>

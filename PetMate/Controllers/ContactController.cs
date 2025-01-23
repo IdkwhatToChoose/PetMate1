@@ -8,5 +8,9 @@ namespace PetMate.Controllers
         {
             return View();
         }
+        public IActionResult MailSent()
+        {
+            return View();
+        }
     }
 }
