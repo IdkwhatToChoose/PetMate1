@@ -57,7 +57,7 @@ namespace PetMate.Helpers
         }
 
         public (byte[] imageBytes, string imageName) SetPhoto(IFormFile imageFile);
-
+        public string GetGPTResponse(string prompt, bool strict_match);
 
     }
 }

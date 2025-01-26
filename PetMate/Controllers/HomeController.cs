@@ -28,10 +28,12 @@ namespace PetMate.Controllers
 
         PetMateContext db = new PetMateContext();
         private readonly IFileManager filemanager;
+        private readonly IUserAndShelterManager manager;
 
-        public HomeController(IFileManager _file)
+        public HomeController(IFileManager _file, IUserAndShelterManager _manager)
         {
             filemanager = _file;
+            manager = _manager;
         }
 
         //public IActionResult Gallery()
@@ -47,24 +49,7 @@ namespace PetMate.Controllers
             return View(petsVM);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Gallery(int page)
-        {
-             ModelServ model = new ModelServ(filemanager);
-
-            List<Pet> pets = await db.Pets.ToListAsync();
-            var pagedPhotos = pets.
-                Skip((page - 1) * 20).
-                Take(20).
-                ToList();
-
-            List<PetVM> photos = await model.ToPetVM(pagedPhotos);
-
-            ViewBag.TotalPages = Math.Ceiling((double)pets.Count / 20);
-            ViewBag.CurrentPage = page; //Page ur currently on
-
-            return View(photos);
-        }
+        
 
         public IActionResult Privacy()
         {

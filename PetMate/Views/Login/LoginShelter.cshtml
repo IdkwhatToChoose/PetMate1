@@ -54,7 +54,7 @@
                             <input type="password" class="form-control bg-light border-0 px-4" placeholder="Your shelter's password" asp-for="ShelterPassword" style="height: 55px;">
                         </div>
                         <div>
-                            <a class="form-control bg-light border-0 px-4" style="height: 55px;" href="@Url.Action("RegistrationShelter","Login")">Register</a>
+                            <p class="form-control border-0 background-0">Don't have an account? Register <a href="@Url.Action("Registration","Login")">here</a></p>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary w-100 py-3" type="submit">Login</button>

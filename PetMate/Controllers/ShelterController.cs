@@ -83,72 +83,21 @@ namespace PetMate.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult Logout()
+        {
+            Claim cookie = User.FindFirst(ClaimTypes.Sid);
+            cookie.Properties.Remove(ClaimTypes.Sid);
+
+            return RedirectToAction("Index", "Home");
+        }
         public string AnalyseAnswers(string answers)
         {
-            string answer = GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 13 and above are the answers to the question.Also only type the chosen characteristics, nothing else.");
+            string answer = usermanager.GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 13 and above are the answers to the question.Also only return the chosen characteristics, nothing more, nothing less.",false);
             string[] userChar = answer.Split(':');
             string result = userChar[0].Replace("-", ", ");
             return result;
         }
 
-        private string GetGPTResponse(string prompt)
-        {
-            string model = "gpt-3.5-turbo"; // Specify the model (e.g., gpt-4)
-            ChatClient chatClient = new ChatClient(model, apiKey);
-
-            // Create messages using the specific message types
-            List<ChatMessage> messages = new List<ChatMessage>
-            {
-                 ChatMessage.CreateSystemMessage("You are a helpful assistant."),
-                 ChatMessage.CreateUserMessage(prompt)
-            };
-
-            try
-            {
-                // Send chat request (synchronous)
-                ClientResult<ChatCompletion> result = chatClient.CompleteChat(messages);
-
-                if (result?.Value != null)
-                {
-                    // Access the response content directly through the flattened property
-                    return result.Value.Content[0].Text;
-                }
-                else
-                {
-                    return "Error: The result value is null or the operation was unsuccessful.";
-                }
-            }
-            catch (Exception ex)
-            {
-                return "An error occurred: " + ex.Message;
-            }
-        }
-        //public IActionResult GetGoogleCalendarEvents()
-        //{
-        //    var service = GetCalendarService();
-
-        //    Fetch events
-        //    var request = service.Events.List("primary");
-        //    request.TimeMin = DateTime.UtcNow;
-        //    request.TimeMax = DateTime.UtcNow.AddMonths(1);
-        //    request.ShowDeleted = false;
-        //    request.SingleEvents = true;
-        //    request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-        //    var events = request.Execute();
-
-        //    Convert events to FullCalendar's JSON format
-        //    var calendarEvents = events.Items.Select(e => new
-        //    {
-        //        title = e.Summary,
-        //        start = e.Start.DateTime?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? e.Start.Date,
-        //        end = e.End.DateTime?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? e.End.Date
-        //    });
-
-        //    return Json(calendarEvents);
-        //}
-
-        //string[] scopes = { CalendarService.Scope.Calendar };
         public CalendarService GetCalendarService()
         {
             try
