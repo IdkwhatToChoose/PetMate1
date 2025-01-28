@@ -113,8 +113,19 @@ namespace PetMate.Controllers
 
             string textPass = shelterVM.ShelterPassword;
             shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
+
+
+            using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
+            {
+                await writer.WriteLineAsync($"{shelter?.Id} - {shelter?.ShelterName}");
+            }
+
             if (shelter == null)
             {
+                using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
+                {
+                    await writer.WriteLineAsync($"SORRY NOT FOUND");
+                }
                 return View();
             }
             else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)

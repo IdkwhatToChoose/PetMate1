@@ -11,11 +11,11 @@ public partial class Shelter
 
     public string Address { get; set; } = null!;
 
-    public int Type { get; set; }
+    public string Type { get; set; } = null!;
 
-    public int WorkingTime { get; set; }
+    public string WorkingTime { get; set; } = null!;
 
-    public int VisitorsTime { get; set; }
+    public string VisitorsTime { get; set; } = null!;
 
     public string? ShelterName { get; set; }
 

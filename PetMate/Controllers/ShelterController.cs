@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Google.Apis.Auth.OAuth2.Flows;
 using System.Net.Mail;
 using System.Net;
+using System.Diagnostics;
 
 namespace PetMate.Controllers
 {
@@ -50,7 +51,18 @@ namespace PetMate.Controllers
         [HttpPost]
         public async Task<IActionResult> PetRegistration(PetVM petVM)
         {
+            using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
+            {
+                foreach (var claim in User.Claims)
+                {
+                    await writer.WriteLineAsync($"{claim} - {claim.Value}");
+                }
+                await writer.WriteLineAsync($"{User.Identity.Name}");
+            }
+
             bool castrated = bool.TryParse(petVM.Castrated, out _);
+            
+
             var shelterID = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
             PhotoOfPet photo = new PhotoOfPet();
             Pet newPet = new Pet();
@@ -76,7 +88,7 @@ namespace PetMate.Controllers
                await db.SaveChangesAsync();
             }
             catch (Exception ex)
-            {
+            {   
                 return BadRequest(ex);
 
             }

@@ -111,9 +111,18 @@ public partial class PetMateContext : DbContext
             entity.Property(e => e.ShelterPassword)
                 .IsUnicode(false)
                 .HasColumnName("shelterPassword");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.VisitorsTime).HasColumnName("visitorsTime");
-            entity.Property(e => e.WorkingTime).HasColumnName("workingTime");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("type");
+            entity.Property(e => e.VisitorsTime)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("visitorsTime");
+            entity.Property(e => e.WorkingTime)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("workingTime");
         });
 
         modelBuilder.Entity<Sponsoring>(entity =>
