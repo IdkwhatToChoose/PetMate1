@@ -122,10 +122,6 @@ namespace PetMate.Controllers
 
             if (shelter == null)
             {
-                using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
-                {
-                    await writer.WriteLineAsync($"SORRY NOT FOUND");
-                }
                 return View();
             }
             else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)

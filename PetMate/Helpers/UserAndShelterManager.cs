@@ -67,7 +67,7 @@
         {
             string model = "gpt-3.5-turbo"; // Specify the model (e.g., gpt-4)
             ChatClient chatClient = new ChatClient(model, apiKey);
-            string strict_system_msg = "You are a helpful assistant. Respond only with a List<>, and nothing else. Do not include any explanation, only return the values.";
+            string strict_system_msg = "You are a helpful assistant. Respond only with a a List<>, and nothing else. Do not include any explanation, only return the values.";
 
             // Create messages using the specific message types
             List<ChatMessage> messages = new List<ChatMessage>

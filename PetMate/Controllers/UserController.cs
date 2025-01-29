@@ -57,7 +57,7 @@ namespace PetMate.Controllers
 
             string promptData = JsonSerializer.Serialize(petCharacteristics);
 
-            var matchedPets = manager.GetGPTResponse($"Take a look at these pets:{promptData}.Order them based on how much the user will like each pet, starting from the most liked ones, to the least liked ones. Use the user's characteristics: [{user.Character}] and the pet's characteristics to order them. Return the names in a List value .Return all pets, no exception.", true);
+            var matchedPets = manager.GetGPTResponse($"Take a look at these pets:{promptData}.Order them based on how much the user will like each pet, starting from the most liked ones, to the least liked ones. Use the user's characteristics: [{user.Character}] and the pet's characteristics to order them. Return them in a JSON like format.Return all pets, no exception.", true);
             var matchedPets_list = JsonSerializer.Deserialize<List<string>>(matchedPets)
             .Select(name => name.Trim().ToLower())
             .ToList();

@@ -16,7 +16,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
-        //options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // HTTPS only
     });
 var app = builder.Build();
 

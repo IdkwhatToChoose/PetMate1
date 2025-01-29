@@ -42,13 +42,13 @@ namespace PetMate.Helpers
              new Claim(ClaimTypes.Role, "Shelter"),
             // Add roles if needed
         };
-            using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
-            {
-                foreach (var claim in claims)
-                {
-                    await writer.WriteLineAsync($"{claim} - {claim.Value}");
-                }
-            }
+            //using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
+            //{
+            //    foreach (var claim in claims)
+            //    {
+            //        await writer.WriteLineAsync($"{claim} - {claim.Value}");
+            //    }
+            //}
 
             // Create the identity and principal
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
