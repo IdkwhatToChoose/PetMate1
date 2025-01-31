@@ -1,0 +1,46 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.confirmation-dialog {
+    position: fixed;
+    top: -100px; /* Start off-screen */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 0; /* No rounded borders */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    opacity: 0; /* Start invisible */
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Smooth animation */
+    width: 300px; /* Smaller width */
+}
+
+    .confirmation-dialog p {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+    }
+
+    .confirmation-dialog button {
+        background-color: white;
+        color: #4CAF50;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 0; /* No rounded borders */
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .confirmation-dialog button:hover {
+            background-color: #f0f0f0;
+        }
+
+.fade-out {
+    transition: opacity 1s ease-out; /* Smooth fade-out effect */
+    opacity: 0; /* Fully transparent */
+}

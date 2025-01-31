@@ -5,7 +5,7 @@ using PetMate.ViewModels;
 
 namespace PetMate.Helpers
 {
-    public  class ModelServ
+    public class ModelServ
     {
          PetMateContext db = new PetMateContext();
         private readonly IFileManager filemanager;
@@ -28,6 +28,7 @@ namespace PetMate.Helpers
                     Image = await GetPhoto(imageID),
                     Castrated = pet.Castrated.ToString(),
                     Breed = pet.Breed,
+                    Gender = pet.Gender,
                     Size = pet.Size,
                     Character = pet.Character,
                     ShelterId = pet.ShelterId,
@@ -39,7 +40,6 @@ namespace PetMate.Helpers
         }
         public async Task<IFormFile> GetPhoto(int id)
         {
-
             var image = await db.PhotoOfPets.FindAsync(id);
             return filemanager.ByteToFormFile(image.Image, image.ImageName, "image/jpeg");
 

@@ -50,7 +50,6 @@ namespace PetMate.Helpers
             //    }
             //}
 
-            // Create the identity and principal
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 

@@ -8,6 +8,7 @@ using PetMate.Helpers;
 using PetMate.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PetMate.Controllers
 {
@@ -61,17 +62,35 @@ namespace PetMate.Controllers
             var matchedPets_list = JsonSerializer.Deserialize<List<string>>(matchedPets)
             .Select(name => name.Trim().ToLower())
             .ToList();
-            
 
-            pagedPhotos = pets.Where(pet => matchedPets_list.Contains(pet.Name.ToLower()))
-                      .OrderBy(pet => matchedPets_list.IndexOf(pet.Name.ToLower()))
-                      .ToList();
+
+
+            if (pets.Count > 1)
+            {
+                pagedPhotos = pets.Where(pet => matchedPets_list.Contains(pet.Name.ToLower()))
+                        .OrderBy(pet => matchedPets_list.IndexOf(pet.Name.ToLower()))
+                        .ToList();
+            }
+            else pagedPhotos = pets;
+            
             List<PetVM> photos = await model.ToPetVM(pagedPhotos);
 
             ViewBag.TotalPages = Math.Ceiling((double)pets.Count / 20);
             ViewBag.CurrentPage = page; //Page ur currently on
 
             return View(photos);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(-1) // Set expiration to a past date
+            };
+            Response.Cookies.Append(".AspNetCore.Cookies_User", "", cookieOptions);
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }

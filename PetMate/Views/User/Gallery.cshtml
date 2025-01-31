@@ -2,69 +2,183 @@
 @inject PetMate.Helpers.IFileManager file
 
 @{
-    Layout = "_Layout";
+    Layout = "_LoggedUserLayout";
 
     int currentPage = ViewBag.CurrentPage;
     var totalPages = ViewBag.TotalPages;
 }
-<div class="gallery">
-    @foreach (var pet in Model)
-    {
-        <div class="gallery-item">
-            <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="@pet.Name" />
-            <p>@pet.Name</p>
-        </div>
-    }
-</div>
 
-<div class="pagination">
-    @if (currentPage > 1)
-    {
-        <a href="@Url.Action("Gallery","Home", new { page = currentPage - 1 })">Previous</a>
-    }
-
-    @for (int i = 1; i <= totalPages; i++)
-    {
-        if (i == currentPage)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="gallery">
+        <!-- Pet Gallery Item 1 -->
+        @foreach(var pet in Model)
         {
-            <span>@i</span>
-        }
-        else
-        {
-            <a href="@Url.Action("Gallery","Home", new { page = i })">@i</a>
-        }
-    }
+            <div class="pet-gallery-item">
+                <!-- Search Icon -->
+                <a href="#" class="search-icon">
+                    <i class="fas fa-search"></i>
+                </a>
 
-    @if (currentPage < totalPages)
-    {
-        <a href="@Url.Action("Gallery","Home", new { page = currentPage + 1 })">Next</a>
-    }
-       
-</div>
+                <!-- Pet Photo -->
+                <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="Buddy"
+                     class="pet-photo">
+
+                <!-- Pet Info -->
+                <div class="pet-info">
+                    <div class="pet-name">@pet.Name</div>
+                    <div class="gender-tag gender-@pet?.Gender?.ToLower()">@pet?.Gender</div>
+                </div>
+            </div>
+        }
+        
+        <!-- Pet Gallery Item 2 -->
+      
+    </div>
+    <div class="pagination">
+        @if (currentPage > 1)
+        {
+            <a href="@Url.Action("Gallery","Home", new { page = currentPage - 1 })">Previous</a>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            if (i == currentPage)
+            {
+                <span>@i</span>
+            }
+            else
+            {
+                <a href="@Url.Action("Gallery","Home", new { page = i })">@i</a>
+            }
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <a href="@Url.Action("Gallery","Home", new { page = currentPage + 1 })">Next</a>
+        }
+
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
 
 <style>
-    .gallery {
-        display:flex;
-        flex-direction: row;
-        width:100vw;
-        height:100vh;
-        flex-wrap:wrap;
-    }
-    .gallery-item{
-        margin:27px;
-    }
     
-    .gallery-item img {
-        width:20em;
-        height:20em;
-        flex-basis:200;
-        border-radius: 5px;
+.gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3.5em;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 20px;
+        font-family: 'Poppins', sans-serif;
+        margin:0px 3em;
+    }
+
+    .pet-gallery-item {
+        position: relative;
+        width: 250px;
+        background: #fff;
+        border-radius: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+
+        .pet-gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+
+    .pet-photo {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+
+    .pet-info {
+        padding: 15px;
+        text-align: center;
+    }
+
+
+    .pet-name {
+        font-size: 1.4em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .gender-tag {
+        display: inline-block;
+        padding: 4px 15px; 
+        border-radius: 15px;
+        font-size: 0.9em; 
+        font-weight: 500;
+    }
+
+    /* Male gender background color */
+    .gender-male {
+        background-color: #a0d8ef; /* Light blue */
+        color: #2a6f8a; /* Dark blue */
+    }
+
+
+    .gender-female {
+        background-color: #f8b7d4; /* Light pink */
+        color: #8a2a5c; /* Dark pink */
+    }
+
+    /* Search icon styling */
+    .search-icon {
+        position: absolute;
+        top: 15px; /* Adjusted position */
+        right: -30px;
+        width: 35px;
+        height: 35px;
+        opacity: 0;
+        background: white;
+        border-radius: 3px;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Hover effect for the search icon */
+    .pet-gallery-item:hover .search-icon {
+        right: 15px; /* Slide in */
+        opacity: 1; /* Fade in */
+    }
+
+    .search-icon i {
+        color: #666;
+        font-size: 18px; /* Slightly larger icon */
     }
 
     .pagination {
         margin-top: 20px;
         text-align: center;
-        position:relative;
+        position: relative;
     }
 
         .pagination a, .pagination span {
@@ -83,8 +197,8 @@
         .pagination a:hover {
             background-color: #ddd;
         }
-        .items-per-page{
-            display:flex;
-    
-        }
+
+    .items-per-page {
+        display: flex;
+    }
 </style>

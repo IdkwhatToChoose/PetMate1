@@ -20,6 +20,9 @@ using Google.Apis.Auth.OAuth2.Flows;
 using System.Net.Mail;
 using System.Net;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace PetMate.Controllers
 {
@@ -42,6 +45,9 @@ namespace PetMate.Controllers
 
         public IActionResult ShelterHomePage()
         {
+            string? confirmationMessage = TempData["confirmation_msg"] as string;
+
+            ViewBag.confirm_msg = confirmationMessage;
             return View();
         }
         public IActionResult PetRegistration()
@@ -51,17 +57,9 @@ namespace PetMate.Controllers
         [HttpPost]
         public async Task<IActionResult> PetRegistration(PetVM petVM)
         {
-            using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
-            {
-                foreach (var claim in User.Claims)
-                {
-                    await writer.WriteLineAsync($"{claim} - {claim.Value}");
-                }
-                await writer.WriteLineAsync($"{User.Identity.Name}");
-            }
 
             bool castrated = bool.TryParse(petVM.Castrated, out _);
-            
+            int age=int.Parse(petVM.Age);
 
             var shelterID = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
             PhotoOfPet photo = new PhotoOfPet();
@@ -69,44 +67,51 @@ namespace PetMate.Controllers
 
             newPet.Name = petVM.Name;
             newPet.Size = petVM.Size;
-            newPet.Age = petVM.Age;
+            newPet.Age = age;
+            newPet.Gender= petVM.Gender;
             newPet.Castrated = castrated;
             newPet.Breed = petVM.Breed;
             newPet.ShelterId = shelterID;
 
-            (byte[] imageBytes, string imageName) imageFile =usermanager.SetPhoto(petVM.Image);
+            (byte[] imageBytes, string imageName) imageFile = usermanager.SetPhoto(petVM.Image);
             photo.Image = imageFile.imageBytes;
             photo.ImageName = imageFile.imageName;
             newPet.Character = AnalyseAnswers(petVM.Answers);
             try
             {
-               await db.Pets.AddAsync(newPet);
-               await db.SaveChangesAsync();
+                await db.Pets.AddAsync(newPet);
+                await db.SaveChangesAsync();
 
                 photo.PetId = newPet.Id;
-               await db.PhotoOfPets.AddAsync(photo);
-               await db.SaveChangesAsync();
+                await db.PhotoOfPets.AddAsync(photo);
+                await db.SaveChangesAsync();
             }
             catch (Exception ex)
-            {   
+            {
                 return BadRequest(ex);
 
             }
+            TempData["confirmation_msg"] = "Pet registered successfully!";
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ShelterHomePage", "Shelter");
         }
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            Claim cookie = User.FindFirst(ClaimTypes.Sid);
-            cookie.Properties.Remove(ClaimTypes.Sid);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(-1) // Set expiration to a past date
+            };
+            Response.Cookies.Append(".AspNetCore.Cookies", "", cookieOptions);
             return RedirectToAction("Index", "Home");
+
         }
         public string AnalyseAnswers(string answers)
         {
-            string answer = usermanager.GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 13 and above are the answers to the question.Also only return the chosen characteristics, nothing more, nothing less.",false);
+            string answer = usermanager.GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 13 and above are the answers to the question.Also only return the chosen characteristics, nothing more, nothing less.", false);
             string[] userChar = answer.Split(':');
-            string result = userChar[0].Replace("-", ", ");
+            string result = userChar[0].Replace("-", ", "); 
             return result;
         }
 
@@ -154,7 +159,7 @@ namespace PetMate.Controllers
 
         public IActionResult SendMail(MailModel mailModel)
         {
-            MailService service= new MailService(_config);
+            MailService service = new MailService(_config);
             service.SendEmail(mailModel.Subject, mailModel.Client_name, mailModel.Client_email, mailModel.Client_message);
             return RedirectToAction("MailSent", "Contact");
         }

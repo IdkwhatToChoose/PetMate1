@@ -23,5 +23,7 @@ public partial class Pet
 
     public string Name { get; set; } = null!;
 
+    public string? Gender { get; set; }
+
     public virtual Shelter Shelter { get; set; } = null!;
 }

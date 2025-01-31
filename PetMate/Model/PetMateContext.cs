@@ -64,20 +64,18 @@ public partial class PetMateContext : DbContext
             entity.Property(e => e.AdopterId).HasColumnName("adopterID");
             entity.Property(e => e.Breed)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("breed");
             entity.Property(e => e.Castrated).HasColumnName("castrated");
             entity.Property(e => e.Character)
                 .HasMaxLength(350)
-                .IsUnicode(false)
                 .HasColumnName("character");
-            entity.Property(e => e.Name)
-                .HasMaxLength(150)
-                .IsUnicode(false);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(50)
+                .HasColumnName("gender");
+            entity.Property(e => e.Name).HasMaxLength(150);
             entity.Property(e => e.ShelterId).HasColumnName("shelterID");
             entity.Property(e => e.Size)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("size");
 
             entity.HasOne(d => d.Shelter).WithMany(p => p.Pets)

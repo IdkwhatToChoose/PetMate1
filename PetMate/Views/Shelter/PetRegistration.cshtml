@@ -1,4 +1,5 @@
 ﻿@model  PetMate.ViewModels.PetVM;
+@using PetMate.ViewModels;
 
 @{
     Layout = "_LoggedShelterLayout";
@@ -7,8 +8,8 @@
     <div class="container-fluid pt-5">
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                <h6 class="text-primary text-uppercase">Contact Us</h6>
-                <h1 class="display-5 text-uppercase mb-0">Registration</h1>
+                <h6 class="text-primary text-uppercase">Регистрация</h6>
+                <h1 class="display-5 text-uppercase mb-0">Регистрирай нов любимец</h1>
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
@@ -20,12 +21,14 @@
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
                         </div>
-                        
+                        <select asp-for="Gender" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.genders" style="height: 55px;">
+                        </select>
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Size" asp-for="Size" style="height: 55px;">
+                            <select asp-for="Size" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.pet_sizes" style="height: 55px;">
+                            </select>
                         </div>
                         <div class="col-12">
                             <input type="file" class="form-control bg-light border-0 px-4" placeholder="Photos" asp-for="Image" multiple="TRUE" style="height: 55px;">

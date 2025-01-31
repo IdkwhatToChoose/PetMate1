@@ -15,8 +15,9 @@ namespace PetMate.Controllers
             {
                 Id = pet.Id,
                 Name= pet.Name,
-                Age=pet.Age,
+                Age=pet.Age.ToString(),
                 Breed=pet.Breed,
+                Gender=pet.Gender,
                 Size=pet.Size,
                 Castrated=pet.Castrated.ToString(),
                 ShelterId=pet.ShelterId,
