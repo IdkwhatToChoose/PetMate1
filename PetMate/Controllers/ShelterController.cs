@@ -23,6 +23,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace PetMate.Controllers
 {
@@ -45,9 +46,8 @@ namespace PetMate.Controllers
 
         public IActionResult ShelterHomePage()
         {
-            string? confirmationMessage = TempData["confirmation_msg"] as string;
 
-            ViewBag.confirm_msg = confirmationMessage;
+            ViewBag.confirm_msg = TempData["confirmation_msg"] as string;
             return View();
         }
         public IActionResult PetRegistration()
@@ -91,7 +91,7 @@ namespace PetMate.Controllers
                 return BadRequest(ex);
 
             }
-            TempData["confirmation_msg"] = "Pet registered successfully!";
+            TempData["confirmation_msg"] = "Успешно добавихте нов любимец!";
 
             return RedirectToAction("ShelterHomePage", "Shelter");
         }
@@ -115,47 +115,6 @@ namespace PetMate.Controllers
             return result;
         }
 
-        public CalendarService GetCalendarService()
-        {
-            try
-            {
-                // Define the required scopes
-                string[] scopes = { CalendarService.Scope.Calendar };
-
-                // Load the credentials file
-                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "credentionals.json");
-
-                GoogleClientSecrets clientSecrets;
-                using (var stream = new FileStream(jsonPath, FileMode.Open, FileAccess.Read))
-                {
-                    clientSecrets = GoogleClientSecrets.FromStream(stream);
-                }
-
-                // Use the Google Authorization Code Flow
-                var userId = "your-user-id-or-email"; // Replace with a meaningful identifier
-                var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    clientSecrets.Secrets,
-                    scopes,
-                    userId,
-                    CancellationToken.None
-                ).Result;
-
-                // Initialize the Calendar service
-                return new CalendarService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = "PetMate"
-                });
-            }
-            catch (Exception ex)
-            {
-                // Log or handle the exception
-                Console.WriteLine($"Error: {ex.Message}");
-                throw;
-            }
-
-
-        }
 
         public IActionResult SendMail(MailModel mailModel)
         {

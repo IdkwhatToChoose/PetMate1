@@ -10,14 +10,13 @@ namespace PetMate.Helpers
     {
         public User UserRegister(UserViewModel userViewModel);
         public Shelter ShelterRegister(ShelterViewModel shelterViewModel);
-        public async Task SetUserCookie(HttpContext httpContext, int id, string email)
+        public async Task SetUserCookie(HttpContext httpContext, int id)
         {
             // Create user claims
             var claims = new List<Claim>
         {
              new Claim(ClaimTypes.Sid, id.ToString()),
              new Claim(ClaimTypes.Role, "User"),
-             new Claim(ClaimTypes.Email,email),
             // Add roles if needed
         };
 

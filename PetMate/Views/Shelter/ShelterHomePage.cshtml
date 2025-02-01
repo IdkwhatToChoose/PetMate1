@@ -39,7 +39,7 @@
     <main class="main-wrapper">
         @if (!string.IsNullOrEmpty(confirm_msg))
         {
-            <div class="confirmation-dialog" id="confirmationDialog">
+            <div class="pm-dialog confirm" id="pm-dialog">
                 <p>@confirm_msg</p>
                 <button onclick="closeDialog()">OK</button>
             </div>
@@ -1012,9 +1012,37 @@
     <script src="/assets/js/world-merc.js"></script>
     <script src="/assets/js/polyfill.js"></script>
     <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/dialogs.js"> </script>
+@*    <script src="/assets/js/dialogs.js"> </script>*@
 
     <script>
+
+
+        var dialog = document.getElementById("pm-dialog");
+
+
+        function showDialog() {
+            if (dialog) {
+                dialog.style.top = '20px';
+                dialog.style.opacity = '1';
+            }
+        }
+
+        // Function to close the dialog
+        function closeDialog() {
+            dialog.style.top = '-100px'; // Move dialog out of view
+            dialog.style.opacity = '0'; // Fade out
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            showDialog();
+
+            // Auto-close after 4 seconds
+            setTimeout(function () {
+                closeDialog();
+            }, 4000);
+        });
+
         // ======== jvectormap activation
         var markers = [
             { name: "Egypt", coords: [26.8206, 30.8025] },

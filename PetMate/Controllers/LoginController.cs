@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Html;
 
 namespace PetMate.Controllers
 {
@@ -89,46 +91,47 @@ namespace PetMate.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserViewModel userVM)
         {
-            User? user = db.Users.FirstOrDefault(x => x.Email == userVM.Email);
+          
+            User? user = await db.Users.FirstOrDefaultAsync(x => x.Username == userVM.Username);
             string textPass = userVM.Password;
             userVM.Password = BCrypt.Net.BCrypt.HashPassword(userVM.Password);
             if (user == null)
             {
+                ViewBag.Error_msg = "Потребителят не е намерен.";
                 return View();
             }
-            else if (BCrypt.Net.BCrypt.Verify(textPass, userVM.Password) == true)
+            else if (BCrypt.Net.BCrypt.Verify(textPass, user.Password)==true)
             {
-                await usermanager.SetUserCookie(HttpContext, user.Id, user.Email);
+                await usermanager.SetUserCookie(HttpContext, user.Id);
                 
                 return RedirectToAction("UserHomePage","User");
 
             }
+            ViewBag.Error_msg = "Грешно потребителско име или парола. Моля опитайте отново";
             return View();
         }
 
         [HttpPost]
-      async public Task<IActionResult> LoginShelter(ShelterViewModel shelterVM)
+        [ValidateAntiForgeryToken]
+        async public Task<IActionResult> LoginShelter(ShelterViewModel shelterVM)
         {
+            
             Shelter? shelter = await db.Shelters.FirstOrDefaultAsync(x => x.ShelterName == shelterVM.ShelterName);
 
             string textPass = shelterVM.ShelterPassword;
             shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
 
-
-            using (StreamWriter writer = System.IO.File.CreateText($"log-{DateTime.Now.ToLongTimeString()}.txt".Replace(":", "_").Replace(" ", "_")))
-            {
-                await writer.WriteLineAsync($"{shelter?.Id} - {shelter?.ShelterName}");
-            }
-
             if (shelter == null)
             {
+                ViewBag.Error_msg = "Приютът не е намерен.";
                 return View();
             }
-            else if (BCrypt.Net.BCrypt.Verify(textPass, shelterVM.ShelterPassword) == true)
+            else if (BCrypt.Net.BCrypt.Verify(textPass, shelter.ShelterPassword) == true)
             {
                 await usermanager.SetShelterCookie(HttpContext, shelter.Id);
                 return RedirectToAction("ShelterHomePage", "Shelter");
             }
+            ViewBag.Error_msg = "Грешно потребителско име или парола. Моля опитайте отново.";
             return View();
         }
         private string GetGPTResponse(string prompt)

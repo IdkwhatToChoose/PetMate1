@@ -44,7 +44,7 @@ namespace PetMate.Controllers
         {
             ModelServ model = new ModelServ(filemanager);
 
-            List<Pet> pets = await db.Pets.ToListAsync();
+            List<Pet> pets = await db.Pets.Take(10).ToListAsync();
             List<PetVM> petsVM = await model.ToPetVM(pets);
             return View(petsVM);
         }

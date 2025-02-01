@@ -541,3 +541,21 @@ body {
 
 
 
+.pm-container-item:hover {
+    animation: colors 1s infinite;
+}
+
+@keyframes colors {
+    0% {
+        border-color: rgba(27, 230, 0, 0.76);
+    }
+
+    50% {
+        border-color: rgba(20, 100, 0, 0.959);
+    }
+
+    100% {
+        border-color: rgb(170, 184, 170);
+    }
+}
+

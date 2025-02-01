@@ -2,8 +2,17 @@
 
 @{
     Layout = "_Layout";
+    string error_msg = ViewBag.Error_msg;
 }
+<link rel="stylesheet" href="/assets/css/dialogs.css"/>
 <form asp-controller="Login" asp-action="Login" method="post">
+    
+    @if (!string.IsNullOrEmpty(error_msg))
+    {
+        <div class="pm-dialog error" id="pm-dialog">
+            <p class="bold">@error_msg</p>
+        </div>
+    }
      <div class="container-fluid pt-5">
         <div class="container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -40,14 +49,33 @@
         </div>
     </div>
 </form>
-<style>
-    .err {
-        background-color: rgba(241, 3, 3, 0.829);
-        text-transform: uppercase;
-        text-align: center;
+<script>
+
+
+    var dialog = document.getElementById("pm-dialog");
+
+
+    function showDialog() {
+        if (dialog) {
+            dialog.style.top = '20px';
+            dialog.style.opacity = '1';
+        }
     }
-    h5 {
-        color: white;
-   }
-</style>
+
+    // Function to close the dialog
+    function closeDialog() {
+        dialog.style.top = '-100px'; // Move dialog out of view
+        dialog.style.opacity = '0'; // Fade out
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showDialog();
+
+        // Auto-close after 4 seconds
+        setTimeout(function () {
+            closeDialog();
+        }, 2000);
+    });
+</script>
 

@@ -1,6 +1,7 @@
 ﻿@model PetMate.Model.Shelter
 @{
     Layout = "_Layout";
+    string error_msg = ViewBag.Error_msg;
 }
 @*<form asp-controller="Login" asp-action="Login" method="post">
     <div class="container-fluid pt-5">
@@ -34,7 +35,14 @@
             </div>
         </div>
 </form>*@
+<link rel="stylesheet" href="~/assets/css/dialogs.css" />
 <div class="container-fluid pt-5">
+    @if (!string.IsNullOrEmpty(error_msg))
+    {
+        <div class="pm-dialog error" id="pm-dialog">
+            <p class="bold">@error_msg</p>
+        </div>
+    }
     <div class="container">
         <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
             <h6 class="text-primary text-uppercase">Contact Us</h6>
@@ -43,10 +51,8 @@
         <div class="row g-5">
             <div class="col-lg-7">
                 <form asp-action="LoginShelter" asp-controller="Login" method="post" enctype="multipart/form-data">
+
                     <div class="row g-3">
-
-
-
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your shelter's name'" asp-for="ShelterName" style="height: 55px;">
                         </div>
@@ -54,7 +60,7 @@
                             <input type="password" class="form-control bg-light border-0 px-4" placeholder="Your shelter's password" asp-for="ShelterPassword" style="height: 55px;">
                         </div>
                         <div>
-                            <p class="form-control border-0 background-0">Don't have an account? Register <a href="@Url.Action("Registration","Login")">here</a></p>
+                            <p class="form-control border-0 background-0">Don't have an account? Register <a href="@Url.Action("RegistrationShelter","Login")">here</a></p>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
@@ -64,3 +70,32 @@
             </div>
         </div>
     </div>
+
+
+<script>
+        var dialog = document.getElementById("pm-dialog");
+
+
+        function showDialog() {
+            if (dialog) {
+                dialog.style.top = '20px';
+                dialog.style.opacity = '1';
+            }
+        }
+
+        // Function to close the dialog
+        function closeDialog() {
+            dialog.style.top = '-100px'; // Move dialog out of view
+            dialog.style.opacity = '0'; // Fade out
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            showDialog();
+
+            // Auto-close after 4 seconds
+            setTimeout(function () {
+                closeDialog();
+            }, 4000);
+        });
+</script>

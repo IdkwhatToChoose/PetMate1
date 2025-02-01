@@ -25,6 +25,7 @@ namespace PetMate.Helpers
                 {
                     Id = pet.Id,
                     Name = pet.Name,
+                    Age=pet.Age.ToString(),
                     Image = await GetPhoto(imageID),
                     Castrated = pet.Castrated.ToString(),
                     Breed = pet.Breed,

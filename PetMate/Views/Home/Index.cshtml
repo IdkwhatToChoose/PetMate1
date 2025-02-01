@@ -215,7 +215,7 @@
                 </div>
                 }*@
              
-    <div class="container-fluid py-5">
+   @* <div class="container-fluid py-5">
         <div class="container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
                 <h6 class="text-primary text-uppercase">Team Members</h6>
@@ -242,46 +242,35 @@
                 }
             </div>
         </div>
-    </div>
+    </div>*@
     <!-- Team End -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
+                <h6 class="text-primary text-uppercase">Животни</h6>
+                <h1 class="display-5 text-uppercase mb-0">Осинови любимец още сега</h1>
+            </div>
 
-@*
-    <!-- Testimonial Start -->
-    <div class="container-fluid bg-testimonial py-5" style="margin: 45px 0;">
-        <div class="container py-5">
-            <div class="row justify-content-end">
-                <div class="col-lg-7">
-                    <div class="owl-carousel testimonial-carousel bg-white p-5">
-                        <div class="testimonial-item text-center">
-                            <div class="position-relative mb-4">
-                                <img class="img-fluid mx-auto" src="img/testimonial-1.jpg" alt="">
-                                <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
-                                    <i class="bi bi-chat-square-quote text-primary"></i>
-                                </div>
+            <div class="pm-findpetnow">
+                @foreach (var pet in Model)
+                {
+                    <div class="pm-item-container">
+                        <div class="pm-container-item">
+                            <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="Lights">
+                            <div class="pm-item-content">
+                                <h2>@pet.Name</h2>
+                                <p>@pet.Age years old</p>
                             </div>
-                            <p>Dolores sed duo clita tempor justo dolor et stet lorem kasd labore dolore lorem ipsum. At lorem lorem magna ut et, nonumy et labore et tempor diam tempor erat. Erat dolor rebum sit ipsum.</p>
-                            <hr class="w-25 mx-auto">
-                            <h5 class="text-uppercase">Client Name</h5>
-                            <span>Profession</span>
                         </div>
-                        <div class="testimonial-item text-center">
-                            <div class="position-relative mb-4">
-                                <img class="img-fluid mx-auto" src="img/testimonial-2.jpg" alt="">
-                                <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
-                                    <i class="bi bi-chat-square-quote text-primary"></i>
-                                </div>
-                            </div>
-                            <p>Dolores sed duo clita tempor justo dolor et stet lorem kasd labore dolore lorem ipsum. At lorem lorem magna ut et, nonumy et labore et tempor diam tempor erat. Erat dolor rebum sit ipsum.</p>
-                            <hr class="w-25 mx-auto">
-                            <h5 class="text-uppercase">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
+                        <a class="bi bi-eye pm-profile" href="#"></a>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
+
+@*
+    
 *@
 
     <!-- Blog Start -->
@@ -356,6 +345,76 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <style>
+       
+        .pm-findpetnow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .pm-item-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column-reverse;
+            width: fit-content;
+            padding: 10px;
+        }
+
+        .pm-container-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 14em;
+            height: 15em;
+            animation: none;
+            border: 1.5px solid rgba(255, 255, 255, 0);
+            background-color: rgba(124, 124, 124, 0.144);
+            transition: border-color 0.3s ease-in-out;
+        }
+
+            .pm-container-item img {
+                width: 100%;
+                height: 60%;
+                object-fit: cover;
+            }
+
+        .pm-item-content {
+            text-align: center;
+        }
+
+            .pm-item-content p {
+                color: #7AB730;
+                margin-top: 1px;
+            }
+
+            .pm-item-content h2 {
+                margin-top: 10px;
+                margin-bottom: 5px;
+                font-size: 1.7em;
+            }
+
+        .pm-profile {
+            position: relative;
+            background-color: #629226a6;
+            padding: 10px 0;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+            top: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pm-item-container:hover .pm-profile {
+            top: 43.5px;
+            opacity: 1;
+        }
+      
+    </style>
 </body>
 
 </html>
