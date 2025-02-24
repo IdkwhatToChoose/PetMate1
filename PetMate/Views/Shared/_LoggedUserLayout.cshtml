@@ -74,13 +74,13 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                @* <a href="@Url.Action("ProfileInfo","Profile")" class="nav-item nav-link">Profile</a>*@
-                <a href="@Url.Action("Logout","User")" class="nav-item nav-link">Logout</a>
-                <a href="@Url.Action("PetProfile","Pet")" class="nav-item nav-link">Pet profile</a>
+                <a href="@Url.Action("Logout","User")" class="nav-item nav-link">Излез</a>
+                <a href="@Url.Action("UserProfile","User")" class="nav-item nav-link">Профил</a>
 
              @*   <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
                 <a href="@Url.Action("about","About")" class="nav-item nav-link">About</a>
                 <a href="@Url.Action("Service","Service")" class="nav-item nav-link active">Service</a>*@
-                <a href="@Url.Action("Gallery","User")" class="nav-item nav-link">Gallery</a>
+                <a href="@Url.Action("Gallery","User")" class="nav-item nav-link">Галерия</a>
                 @*<div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
@@ -91,7 +91,7 @@
                         <a href="detail.html" class="dropdown-item">Blog Detail</a>
                     </div>
                 </div>*@
-                <a href="contact.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Contact <i class="bi bi-arrow-right"></i></a>
+                <a href="@Url.Action("Contact","Contact")" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5" style="background-color:#7AB730">Контакти <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </nav>
@@ -103,7 +103,7 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>. All Rights Reserved.</p>
+                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>. All Rights Reserved. Made for NOIT</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a></p>

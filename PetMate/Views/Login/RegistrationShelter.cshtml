@@ -6,36 +6,39 @@
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                <h6 class="text-primary text-uppercase">Contact Us</h6>
-                <h1 class="display-5 text-uppercase mb-0">Please Feel Free To Contact Us</h1>
+                <h6 class="text-primary text-uppercase">Регистрация на приют</h6>
+                <h1 class="display-5 text-uppercase mb-0">Регистрирайте вашия приют</h1>
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
                     <form>
                         <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="The name of your shelter" asp-for="ShelterName" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Име на вашия приют" asp-for="ShelterName" style="height: 55px;">
                         </div>
                         <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your password" asp-for="ShelterPassword" style="height: 55px;">
+                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Вашата парола" asp-for="ShelterPassword" style="height: 55px;">
                         </div>
                         <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Address" asp-for="Address" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Вашият адрес" asp-for="Address" style="height: 55px;">
+                        </div>
+                        <div class="form-control bg-light no-rounded pa-2 col-12 inputs dtime" style="height: fit-content;">
+                            <span class="plc">Работно Време:</span>
+                            <input type="time" class="border mx-3 px-4 dtimew" style="height: 55px;" id="w-time-o"> -
+                            <input type="time" class="border mx-3 px-4 dtimew" style="height: 55px;" id="w-time-c">
+                            <input id="workingTime" hidden asp-for="WorkingTime">
+                        </div>
+                        <div class="form-control bg-light no-rounded pa-2 col-12 inputs flex-inline dtime" style="height: fit-content;">
+                            <span class="plc">Време за посетители:</span>
+                            <input type="time" class="border mx-3 px-4 dtimev" style="height: 55px;" id="v-time-o"> -
+                            <input type="time" class="border mx-3 px-4 dtimev" style="height: 55px;" id="v-time-c">
+                            <input id="vistorsTime" hidden asp-for="VisitorsTime">
                         </div>
                         <div class="col-12 inputs">
-                            <input type="number" class="form-control bg-light border-0 px-4" placeholder="The number of your pets" asp-for="PetCount" style="height: 55px;">
-                        </div>
-                        <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your opening & closing time" asp-for="WorkingTime" style="height: 55px;">
-                        </div>
-                        <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your opening & closing time for visitors" asp-for="VisitorsTime" style="height: 55px;">
-                        </div>
-                        <div class="col-12 inputs">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="The type of your shelter" asp-for="Type" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Тип на приют" asp-for="Type" style="height: 55px;">
                         </div>
                        
                         <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
+                            <button class="btn btn-primary w-100 py-3" type="submit">Вход</button>
                         </div>
                     </form>
                 </div>
@@ -43,7 +46,45 @@
         </div>
 </form>
 
+<script>
+   
+    let wTimeO = document.getElementById('w-time-o');
+    let wTimeC = document.getElementById('w-time-c');
+    let vTimeO = document.getElementById('v-time-o');
+    let vTimeC = document.getElementById('v-time-c');
+
+    let workingTime = document.getElementById('workingTime');
+    let vistorsTime = document.getElementById('vistorsTime');
+
+    wTimeO.addEventListener('change', function () {
+        workingTime.value = wTimeO.value + ' - ' + wTimeC.value;
+    })
+    wTimeC.addEventListener('change', function () {
+        workingTime.value = wTimeO.value + ' - ' + wTimeC.value;
+    })
+    vTimeO.addEventListener('change', function () {
+        vistorsTime.value = vTimeO.value + ' - ' + vTimeC.value;
+    })
+    vTimeC.addEventListener('change', function () {
+        vistorsTime.value = vTimeO.value + ' - ' + vTimeC.value;
+    })
+</script>
+
 <style>
+    .dtime {
+        display: flex;
+        flex-direction: row;
+        align-items:center;
+    }
+
+    .plc {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        width: 200px;
+    }
+
     .inputs{
         margin-bottom:15px;
     }

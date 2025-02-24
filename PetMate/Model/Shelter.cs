@@ -22,4 +22,6 @@ public partial class Shelter
     public string ShelterPassword { get; set; } = null!;
 
     public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
+
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

@@ -47,7 +47,7 @@
             newShelter.ShelterPassword = svm.ShelterPassword;
             newShelter.WorkingTime = svm.WorkingTime;
             newShelter.VisitorsTime = svm.VisitorsTime;
-            newShelter.PetCount = svm.PetCount;
+            newShelter.PetCount = 0;
             newShelter.Type = svm.Type;
 
             return newShelter;

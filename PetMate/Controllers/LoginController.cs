@@ -23,9 +23,9 @@ namespace PetMate.Controllers
     {
         private PetMateContext db = new PetMateContext();
         private readonly IUserAndShelterManager usermanager;
-        private readonly string questions = "1.How active are you on a daily basis?, 2. Do you have experience with pet ownership?, 3. What is your living situation?, 4. How often are you at home during the day?, 5. Do you have other pets?, 6. Are there children in your household?, 7. How much time can you commit to pet care daily?, 8. What’s your preferred level of pet maintenance?, 9. Do you prefer a pet that is independent or interactive?, 10. Are you comfortable with pets that require regular grooming?, 11. What’s your tolerance for noise or vocalizations (barking, meowing)?, 12. How would you rate your tolerance for pet-related cleaning?, 13. Are you comfortable with pets that may have special needs?, 14. Do you travel frequently, and would your pet travel with you?, 15. What qualities are most important in your ideal pet?";
+        private readonly string questions = "1. Колко активни сте в ежедневието си?, 2. Имате ли опит с отглеждане на домашни любимци?, 3. Каква е вашата житейска ситуация?, 4. Колко често сте у дома през деня?, 5. Имате ли други домашни любимци?, 6. Има ли деца във вашето домакинство?, 7. Колко време можете да отделяте ежедневно за грижа за домашен любимец?, 8. Какво ниво на поддръжка на домашен любимец предпочитате?, 9. Предпочитате ли домашен любимец, който е независим или интерактивен?, 10. Чувствате ли се комфортно с домашни любимци, които изискват редовно подстригване?, 11. Каква е вашата поносимост към шум или вокализации (лаене, мяукане)?, 12. Как бихте оценили вашата поносимост към почистване, свързано с домашния любимец?, 13. Чувствате ли се комфортно с домашни любимци, които може да имат специални нужди?, 14. Пътувате ли често и би ли пътувал вашият домашен любимец с вас?, 15. Кои качества са най-важни за вашия идеален домашен любимец?";
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
-        private string explanation = "Im making a website where characteristics of the user will be displyed in his profile based on his answers on questions";
+        private string explanation = "Правя уебсайт, където характеристиките на регистрирания домашен любимец ще се показват в неговия профил въз основа на отговорите на въпросите";
         private readonly string[] charactersitics = Enum.GetNames(typeof(Characteristics.Characteristics));
 
         public LoginController(IUserAndShelterManager _userManager)
@@ -40,7 +40,7 @@ namespace PetMate.Controllers
         }
         public IActionResult Registration()
         {
-            //UserViewModel uvm=new UserViewModel();
+            //ViewBag.err_msg_reg = TempData["err_msg_reg"] as string; 
             return View();
         }
         public IActionResult HabitForm()
@@ -52,12 +52,16 @@ namespace PetMate.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult RegistrationShelter(ShelterViewModel svm)
+        public async Task<IActionResult> RegistrationShelter(ShelterViewModel svm)
         {
             Shelter shelter = usermanager.ShelterRegister(svm);
-            db.Shelters.AddAsync(shelter);
-            db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+           
+            await db.Shelters.AddAsync(shelter);
+            await db.SaveChangesAsync();
+            await usermanager.SetShelterCookie(HttpContext, shelter.Id,Response);
+            
+
+            return RedirectToAction("ShelterHomePage", "Shelter");
         }
         [HttpPost]
         public IActionResult Register(UserViewModel userVM)
@@ -70,17 +74,19 @@ namespace PetMate.Controllers
                 user.Character = AnalyseAnswers(userVM.Answers);
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
-            }
 
+                usermanager.SetUserCookie(HttpContext, user.Id,Response);
+
+                return RedirectToAction("UserHomePage", "User");
+            }
+            TempData["err_msg_reg"] = "Моля попълнете всички въпроси!";
             return RedirectToAction("Registration", "Login");
         }
         public string AnalyseAnswers(string answers)
         {
-            string answer = GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 15 and above are the answers to the question.Also only print the chosen characteristics.");
-            string[] userChar = answer.Split(':');
-            string result = userChar[1].Replace("-", ", ");
-            return result;
+            string answer = usermanager.GetGPTResponse($"{explanation}. Върни някоя от тези характеристики за потребителя: {string.Join(", ", charactersitics)}, въз основа на тези въпроси: {questions} и техните отговори: {answers}. " + $"Последният въпрос е с множество избори, така че числата 15 и нагоре са отговори на този въпрос. Също така, отпечатай само избраните характеристики.", false);
+            return answer;
+            
         }
 
         public IActionResult Login()
@@ -89,6 +95,7 @@ namespace PetMate.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserViewModel userVM)
         {
           
@@ -102,7 +109,7 @@ namespace PetMate.Controllers
             }
             else if (BCrypt.Net.BCrypt.Verify(textPass, user.Password)==true)
             {
-                await usermanager.SetUserCookie(HttpContext, user.Id);
+                await usermanager.SetUserCookie(HttpContext, user.Id,Response);
                 
                 return RedirectToAction("UserHomePage","User");
 
@@ -117,19 +124,25 @@ namespace PetMate.Controllers
         {
             
             Shelter? shelter = await db.Shelters.FirstOrDefaultAsync(x => x.ShelterName == shelterVM.ShelterName);
+            try {
+                string textPass = shelterVM.ShelterPassword;
+                shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
 
-            string textPass = shelterVM.ShelterPassword;
-            shelterVM.ShelterPassword = BCrypt.Net.BCrypt.HashPassword(shelterVM.ShelterPassword);
-
-            if (shelter == null)
-            {
-                ViewBag.Error_msg = "Приютът не е намерен.";
-                return View();
+                if (shelter == null)
+                {
+                    ViewBag.Error_msg = "Приютът не е намерен.";
+                    return View();
+                }
+                else if (BCrypt.Net.BCrypt.Verify(textPass, shelter.ShelterPassword) == true)
+                {
+                    await usermanager.SetShelterCookie(HttpContext, shelter.Id, Response);
+                    return RedirectToAction("ShelterHomePage", "Shelter");
+                }
             }
-            else if (BCrypt.Net.BCrypt.Verify(textPass, shelter.ShelterPassword) == true)
+            catch(Exception)
             {
-                await usermanager.SetShelterCookie(HttpContext, shelter.Id);
-                return RedirectToAction("ShelterHomePage", "Shelter");
+                ViewBag.Error_msg = "Грешно потребителско име или парола. Моля опитайте отново.";
+                return View();
             }
             ViewBag.Error_msg = "Грешно потребителско име или парола. Моля опитайте отново.";
             return View();
@@ -142,7 +155,7 @@ namespace PetMate.Controllers
             // Create messages using the specific message types
             List<ChatMessage> messages = new List<ChatMessage>
             {
-                 ChatMessage.CreateSystemMessage("You are a helpful assistant."),
+                 ChatMessage.CreateSystemMessage("You are a helpful assistant. Respond in bulgarian."),
                  ChatMessage.CreateUserMessage(prompt)
             };
 

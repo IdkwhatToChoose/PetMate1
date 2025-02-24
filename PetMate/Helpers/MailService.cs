@@ -12,10 +12,9 @@ namespace PetMate.Helpers
         {
             _config = config;
         }
-
+        private readonly string _appass = Environment.GetEnvironmentVariable("apppassG");
         public void SendEmail(string subject, string client_name, string client_email, string client_message)
         {
-            string appass = _config["appass"];
 
             using (var client = new SmtpClient())
             {
@@ -24,7 +23,7 @@ namespace PetMate.Helpers
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("petmate821@gmail.com", appass);
+                client.Credentials = new NetworkCredential("petmate821@gmail.com", _appass);
                 using (var message = new MailMessage(
                     from: new MailAddress(client_email,client_name),
                     to: new MailAddress("petmate821@gmail.com", "Stanislav")

@@ -25,5 +25,7 @@ public partial class Pet
 
     public string? Gender { get; set; }
 
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
+
     public virtual Shelter Shelter { get; set; } = null!;
 }

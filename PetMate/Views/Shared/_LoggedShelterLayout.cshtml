@@ -42,13 +42,13 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                 <a href="@Url.Action("PetRegistration","Shelter")" class="nav-item nav-link">Добави любимец</a>
-                <a href="@Url.Action("ProfileInfo","Profile")" class="nav-item nav-link">Профил</a>
+                <a href="@Url.Action("Profile","Shelter")" class="nav-item nav-link">Профил</a>
                 <a href="@Url.Action("Logout","Shelter")" class="nav-item nav-link">Излез</a>
                 @*   <a href="@Url.Action("Index","Home")" class="nav-item nav-link">Home</a>
                 <a href="@Url.Action("about","About")" class="nav-item nav-link">About</a>
 
                *@
-                <a href="contact.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Contact <i class="bi bi-arrow-right"></i></a>
+                <a href="@Url.Action("Contact","Contact")" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Контакти <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </nav>

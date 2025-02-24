@@ -37,7 +37,7 @@ function Validate() {
     if (count >= 15) {
         vField.value = 'true';
     } else {
-        vField.value = 'false';
+        vField.value = false;
         text.innerHTML = 'Please answer all of the questions!';
     }
 }

@@ -23,6 +23,8 @@ public partial class PetMateContext : DbContext
 
     public virtual DbSet<PhotoOfPet> PhotoOfPets { get; set; }
 
+    public virtual DbSet<Request> Requests { get; set; }
+
     public virtual DbSet<Shelter> Shelters { get; set; }
 
     public virtual DbSet<Sponsoring> Sponsorings { get; set; }
@@ -96,6 +98,30 @@ public partial class PetMateContext : DbContext
             entity.Property(e => e.PetId).HasColumnName("petID");
         });
 
+        modelBuilder.Entity<Request>(entity =>
+        {
+            entity.Property(e => e.Datetime).HasColumnType("datetime");
+            entity.Property(e => e.PetId).HasColumnName("PetID");
+            entity.Property(e => e.ShelterId).HasColumnName("ShelterID");
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Pet).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.PetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Requests_Pet");
+
+            entity.HasOne(d => d.Shelter).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.ShelterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Requests_Shelter");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Requests_User");
+        });
+
         modelBuilder.Entity<Shelter>(entity =>
         {
             entity.Property(e => e.Address)
@@ -135,7 +161,6 @@ public partial class PetMateContext : DbContext
         {
             entity.Property(e => e.Character)
                 .HasMaxLength(350)
-                .IsUnicode(false)
                 .HasColumnName("character");
             entity.Property(e => e.Email)
                 .HasMaxLength(70)
@@ -143,11 +168,9 @@ public partial class PetMateContext : DbContext
                 .HasColumnName("email");
             entity.Property(e => e.Password)
                 .HasMaxLength(350)
-                .IsUnicode(false)
                 .HasColumnName("password");
             entity.Property(e => e.Username)
                 .HasMaxLength(70)
-                .IsUnicode(false)
                 .HasColumnName("username");
         });
 

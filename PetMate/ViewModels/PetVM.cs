@@ -25,20 +25,20 @@ namespace PetMate.ViewModels
 
         public IFormFile? Image { get; set; }
 
-        public string Answers { get; set; }
+        public string? Answers { get; set; }
     }
     public static class SelectOptionsPet
     {
       public static List<SelectListItem> genders = new List<SelectListItem>
         {
-            new SelectListItem { Value = "Male", Text = "Male" },
-            new SelectListItem { Value = "Female", Text = "Female" },
+            new SelectListItem { Value = "Мъжко", Text = "Мъжко" },
+            new SelectListItem { Value = "Женско", Text = "Женско" },
         };
        public static List<SelectListItem> pet_sizes = new List<SelectListItem>
         {
-            new SelectListItem { Value = "Big", Text = "Big" },
-            new SelectListItem { Value = "Average", Text = "Average" },
-            new SelectListItem { Value = "Small", Text = "Small"}
+            new SelectListItem { Value = "Голям размер", Text = "Голям размер" },
+            new SelectListItem { Value = "Среден размер", Text = "Среден размер" },
+            new SelectListItem { Value = "Малък размер", Text = "Малък размер"}
         };
     }
 }

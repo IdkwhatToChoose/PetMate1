@@ -16,18 +16,18 @@
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Name" asp-for="Name" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Име" asp-for="Name" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Age" asp-for="Age" style="height: 55px;">
+                            <input type="number" class="form-control bg-light border-0 px-4" placeholder="Години" asp-for="Age" style="height: 55px;">
                         </div>
                         <select asp-for="Gender" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.genders" style="height: 55px;">
                         </select>
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Breed" asp-for="Breed" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Порода" asp-for="Breed" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <select asp-for="Size" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.pet_sizes" style="height: 55px;">
+                            <select asp-for="Size" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.pet_sizes"  style="height: 55px;">
                             </select>
                         </div>
                         <div class="col-12">
@@ -36,7 +36,7 @@
                         <div class="col-12 castration">
                             <div class="form-control pa-4">
                                 <input type="checkbox" value="@true" id="check" name="check" />
-                                <label for="check">Castrated</label>
+                                <label for="check">Кастрирано</label>
                                 <input id="castr" hidden asp-for="Castrated" />
                             </div>
                         </div>
@@ -47,174 +47,186 @@
         </div>
         <div class="container registr-container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                <h6 class="text-primary text-uppercase">Fill up you'r habits</h6>
-                <h1 class="display-5 text-uppercase mb-0">Habit Form</h1>
+                <h6 class="text-primary text-uppercase">Попълни твоите навици</h6>
+                <h1 class="display-5 text-uppercase mb-0">Форма за навици</h1>
             </div>
+            
             <div id="hobby-form">
                 <div class="question">
-                    <span>1. What is the pet's activity level? </span>
+                    <span>1. Какво е нивото на активност на домашния любимец?</span>
                     <div class="section-container">
-                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Inactive</span>
+                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Неактивен</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Somewhat Active</span>
+                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Умерено активен</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Highly Active</span>
-                    </div>
-                </div>
-                <div class="question">
-                    <span>2. How sociable is the pet with people?</span>
-                    <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>Shy</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>Friendly</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio2" class="option"><span>Very social</span>
+                        <input type="radio" class="option" name="radio1" onclick="selectOnlyOne(this)"><span>Много активен</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>3. How does the pet interact with other animals?</span>
+                    <span>2. Колко социален е домашният любимец с хора?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>Avoidant</span>
+                        <input type="radio" name="radio2" class="option"><span>Срамежлив</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>Neutral</span>
+                        <input type="radio" name="radio2" class="option"><span>Приветлив</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio3" class="option"><span>Playful</span>
+                        <input type="radio" name="radio2" class="option"><span>Много социален</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>4. What level of grooming does the pet require?</span>
+                    <span>3. Как взаимодейства домашният любимец с други животни?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>Low</span>
+                        <input type="radio" name="radio3" class="option"><span>Избягва ги</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>Average</span>
+                        <input type="radio" name="radio3" class="option"><span>Неутрален</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio4" class="option"><span>High</span>
+                        <input type="radio" name="radio3" class="option"><span>Игрив</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>5. How vocal is the pet?</span>
+                    <span>4. Какво ниво на поддръжка изисква домашният любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>Quiet</span>
+                        <input type="radio" name="radio4" class="option"><span>Ниско</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>Average</span>
+                        <input type="radio" name="radio4" class="option"><span>Средно</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio5" class="option"><span>Talkative</span>
+                        <input type="radio" name="radio4" class="option"><span>Високо</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>6. Is the pet trained?</span>
+                    <span>5. Колко вокален е домашният любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio6" class="option"><span>Yes, fully trained</span>
+                        <input type="radio" name="radio5" class="option"><span>Тих</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio6" class="option"><span>Yes, partially trained</span>
+                        <input type="radio" name="radio5" class="option"><span>Средно</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio6" class="option"><span>No</span>
+                        <input type="radio" name="radio5" class="option"><span>Много разговорлив</span>
                     </div>
                 </div>
-              
+
                 <div class="question">
-                    <span>7. Does the pet have special needs or medical requirements? </span>
+                    <span>6. Обучен ли е домашният любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio8" class="option"><span>Yes</span>
+                        <input type="radio" name="radio6" class="option"><span>Да, напълно обучен</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio8" class="option"><span>No</span>
+                        <input type="radio" name="radio6" class="option"><span>Да, частично обучен</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="radio" name="radio6" class="option"><span>Не</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>8. What type of living environment is best for this pet? </span>
+                    <span>7. Има ли домашният любимец специални нужди или медицински изисквания?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>Apartment</span>
+                        <input type="radio" name="radio8" class="option"><span>Да</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>House with Yard</span>
-                    </div>
-                    <div class="section-container">
-                        <input type="radio" name="radio9" class="option"><span>Rural property</span>
+                        <input type="radio" name="radio8" class="option"><span>Не</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>9. How independent is the pet?</span>
+                    <span>8. Каква е най-подходящата среда за живот за този домашен любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio10" class="option"><span>Very Independent</span>
+                        <input type="radio" name="radio9" class="option"><span>Апартамент</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio10" class="option"><span>Moderately Dependent</span>
+                        <input type="radio" name="radio9" class="option"><span>Къща с двор</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio10" class="option"><span>Very Dependent</span>
+                        <input type="radio" name="radio9" class="option"><span>Селски имот</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>10. How well does the pet tolerate children?</span>
+                    <span>9. Колко независим е домашният любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>Not suitable</span>
+                        <input type="radio" name="radio10" class="option"><span>Много независим</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>Neutral</span>
+                        <input type="radio" name="radio10" class="option"><span>Умерено зависим</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio11" class="option"><span>Very tolarent</span>
+                        <input type="radio" name="radio10" class="option"><span>Много зависим</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>11. What type of climate does the pet prefer?</span>
+                    <span>10. Колко добре толерира домашният любимец деца?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio12" class="option"><span>Cool</span>
+                        <input type="radio" name="radio11" class="option"><span>Не е подходящ</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio12" class="option"><span>Average</span>
+                        <input type="radio" name="radio11" class="option"><span>Неутрален</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio12" class="option"><span>Warm</span>
+                        <input type="radio" name="radio11" class="option"><span>Много толерантен</span>
                     </div>
                 </div>
+
                 <div class="question">
-                    <span>12 .What is the pet’s preferred level of interaction?</span>
+                    <span>11. Какъв климат предпочита домашният любимец?</span>
                     <div class="section-container">
-                        <input type="radio" name="radio13" class="option"><span>Minimal</span>
+                        <input type="radio" name="radio12" class="option"><span>Хладен</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio13" class="option"><span>Average</span>
+                        <input type="radio" name="radio12" class="option"><span>Среден</span>
                     </div>
                     <div class="section-container">
-                        <input type="radio" name="radio13" class="option"><span>High</span>
+                        <input type="radio" name="radio12" class="option"><span>Топъл</span>
                     </div>
                 </div>
-                
+
                 <div class="question">
-                    <span>13. What is the pet's temperment?</span>
+                    <span>12. Какво ниво на взаимодействие предпочита домашният любимец?</span>
                     <div class="section-container">
-                        <input type="checkbox" name="radio15" class="option"><span>Calm</span>
+                        <input type="radio" name="radio13" class="option"><span>Минимално</span>
                     </div>
                     <div class="section-container">
-                        <input type="checkbox" name="radio15" class="option"><span>Playful</span>
+                        <input type="radio" name="radio13" class="option"><span>Средно</span>
                     </div>
                     <div class="section-container">
-                        <input type="checkbox" name="radio15" class="option"><span>Protective</span>
+                        <input type="radio" name="radio13" class="option"><span>Високо</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <span>13. Какъв е темпераментът на домашния любимец?</span>
+                    <div class="section-container">
+                        <input type="checkbox" name="radio15" class="option"><span>Спокоен</span>
                     </div>
                     <div class="section-container">
-                        <input type="checkbox" name="radio15" class="option"><span>Affectionate</span>
+                        <input type="checkbox" name="radio15" class="option"><span>Игрив</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="checkbox" name="radio15" class="option"><span>Защитен</span>
+                    </div>
+                    <div class="section-container">
+                        <input type="checkbox" name="radio15" class="option"><span>Привързан</span>
                     </div>
                     <input type="text" id="answers" hidden asp-for="Answers" />
                 </div>
-                <div class="col-11">
-                    <button onclick="SeeChecked()" class="btn btn-primary w-100 py-3">Done  ✔ </button>
-                </div>
 
+                <div class="col-11">
+                    <button onclick="SeeChecked()" class="btn btn-primary w-100 py-3">Готово ✔</button>
+                </div>
             </div>
+
         </div>
 
 </form>

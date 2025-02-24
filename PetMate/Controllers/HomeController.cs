@@ -27,12 +27,10 @@ namespace PetMate.Controllers
     {
 
         PetMateContext db = new PetMateContext();
-        private readonly IFileManager filemanager;
         private readonly IUserAndShelterManager manager;
 
-        public HomeController(IFileManager _file, IUserAndShelterManager _manager)
+        public HomeController( IUserAndShelterManager _manager)
         {
-            filemanager = _file;
             manager = _manager;
         }
 
@@ -42,10 +40,9 @@ namespace PetMate.Controllers
         //}
         public async Task<IActionResult> Index()
         {
-            ModelServ model = new ModelServ(filemanager);
 
             List<Pet> pets = await db.Pets.Take(10).ToListAsync();
-            List<PetVM> petsVM = await model.ToPetVM(pets);
+            List<PetVM> petsVM = await PetMateModel.ToPetsVM(pets);
             return View(petsVM);
         }
 

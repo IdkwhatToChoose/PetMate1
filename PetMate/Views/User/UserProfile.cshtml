@@ -1,3 +1,49 @@
 ﻿@{
     Layout = "_LoggedUserLayout";
 }
+@model PetMate.Model.User;
+
+
+<div class="container mt-5">
+    <!-- User Profile Section -->
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title">User Profile</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Потребителско име:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <i class="bi bi-person-fill"></i> @Model.Username
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Email:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <i class="bi bi-envelope-fill"></i> @(Model.Email ?? "Not provided")
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Характеристики:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <i class="bi bi-person-badge-fill"></i> @(Model.Character ?? "Not provided")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Requests Section -->
+  
+</div>

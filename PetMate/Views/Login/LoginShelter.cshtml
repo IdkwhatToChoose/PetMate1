@@ -1,7 +1,7 @@
 ﻿@model PetMate.Model.Shelter
 @{
     Layout = "_Layout";
-    string error_msg = ViewBag.Error_msg;
+    string? error_msg = ViewBag.Error_msg;
 }
 @*<form asp-controller="Login" asp-action="Login" method="post">
     <div class="container-fluid pt-5">
@@ -43,10 +43,11 @@
             <p class="bold">@error_msg</p>
         </div>
     }
+
     <div class="container">
         <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-            <h6 class="text-primary text-uppercase">Contact Us</h6>
-            <h1 class="display-5 text-uppercase mb-0">Please Feel Free To Contact Us</h1>
+            <h6 class="text-primary text-uppercase">Вход</h6>
+            <h1 class="display-5 text-uppercase mb-0">Влезте във вашия приют </h1>
         </div>
         <div class="row g-5">
             <div class="col-lg-7">
@@ -54,16 +55,16 @@
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your shelter's name'" asp-for="ShelterName" style="height: 55px;">
+                            <input type="text" class="form-control bg-light border-0 px-4" placeholder="Името на приютът ви" asp-for="ShelterName" style="height: 55px;">
                         </div>
                         <div class="col-12">
-                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Your shelter's password" asp-for="ShelterPassword" style="height: 55px;">
+                            <input type="password" class="form-control bg-light border-0 px-4" placeholder="Парола на приютът ви" asp-for="ShelterPassword" style="height: 55px;">
                         </div>
                         <div>
-                            <p class="form-control border-0 background-0">Don't have an account? Register <a href="@Url.Action("RegistrationShelter","Login")">here</a></p>
+                            <p class="form-control border-0 background-0">Нямата профил? Регистрирайте се <a href="@Url.Action("RegistrationShelter","Login")">тук</a></p>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
+                            <button class="btn btn-primary w-100 py-3" type="submit">Вход</button>
                         </div>
                     </div>
                 </form>

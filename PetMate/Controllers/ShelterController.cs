@@ -1,7 +1,4 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenAI.Chat;
@@ -12,30 +9,26 @@ using PetMate.ViewModels;
 using System.ClientModel;
 using System.Security.Claims;
 using System.Xml.Linq;
-using System.IO;
-using System.Threading;
-using Google.Apis.Calendar.v3.Data;
-using Microsoft.AspNetCore.Hosting;
-using Google.Apis.Auth.OAuth2.Flows;
-using System.Net.Mail;
-using System.Net;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PetMate.Controllers
 {
     public class ShelterController : Controller
     {
         PetMateContext db = new PetMateContext();
+        Random random = new Random();
+
         private readonly IUserAndShelterManager usermanager;
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
-        private readonly string questions = "What is the pet's activity level?, 2. How sociable is the pet with people?, 3. How does the pet interact with other animals?, 4. What level of grooming does the pet require?, 5. How vocal is the pet?, 6. Is the pet trained?, 7. Does the pet have special needs or medical requirements?, 8. What type of living environment is best for this pet?, 9. How independent is the pet?, 10. How well does the pet tolerate children?, 11. What type of climate does the pet prefer?, 12. What is the pet's preferred level of interaction?, 13. What is the pet's temperament?";
-        private string explanation = "Im making a website where characteristics of the registered pet will be displyed in its profile based on the answers on questions";
+        private readonly string questions = "Какво е нивото на активност на домашния любимец?, 2. Колко общителен е домашният любимец с хората?, 3. Как взаимодейства домашният любимец с други животни?, 4. Какво ниво на поддръжка изисква домашният любимец?, 5. Колко гласовит е домашният любимец?, 6. Обучен ли е домашният любимец?, 7. Има ли домашният любимец специални нужди или медицински изисквания?, 8. Какъв тип жилищна среда е най-подходяща за този домашен любимец?, 9. Колко независим е домашният любимец?, 10. До каква степен домашният любимец понася деца?, 11. Какъв тип климат предпочита домашният любимец?, 12. Какво е предпочитаното ниво на взаимодействие на домашния любимец?, 13. Какъв е темпераментът на домашния любимец?";
+        private string explanation = "Правя уебсайт, където характеристиките на регистрирания домашен любимец ще се показват в неговия профил въз основа на отговорите на въпросите";
         private readonly string[] charactersitics = Enum.GetNames(typeof(Characteristics.Characteristics));
-
+      
         private readonly IConfiguration _config;
 
         public ShelterController(IUserAndShelterManager _userManager, IConfiguration config)
@@ -44,24 +37,51 @@ namespace PetMate.Controllers
             _config = config;
         }
 
-        public IActionResult ShelterHomePage()
+        [HttpGet]
+        public async Task<IActionResult> ShelterHomePage()
         {
+           
+            ViewBag.confirm_msg = TempData["msg"] as string;
+            int shelter_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            Shelter curr_shelter = await db.Shelters.FindAsync(shelter_id);
 
-            ViewBag.confirm_msg = TempData["confirmation_msg"] as string;
-            return View();
+            List<Pet> pets_in_shelter = await db.Pets.Where(x => x.ShelterId == shelter_id).ToListAsync();
+            ICollection<Request> requests = await db.Requests.Where(x=>x.ShelterId == curr_shelter.Id).ToListAsync();
+
+            foreach (var req in requests)
+            {
+                req.User = await db.Users.FindAsync(req.UserId);
+                
+            }
+
+            ShelterViewModel shelter_vm = new ShelterViewModel()
+            {
+                Id = curr_shelter.Id,
+                Address = curr_shelter.Address,
+                ShelterName = curr_shelter.ShelterName,
+                ShelterPassword = curr_shelter.ShelterPassword,
+                WorkingTime = curr_shelter.WorkingTime,
+                VisitorsTime = curr_shelter.VisitorsTime,
+                Type = curr_shelter.Type,
+                Pets = await PetMateModel.ToPetsVM(pets_in_shelter),
+                PetCount = curr_shelter.PetCount,
+                AdoptionRequests= requests,
+            };
+            return View(shelter_vm);
         }
         public IActionResult PetRegistration()
         {
             return View();
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PetRegistration(PetVM petVM)
         {
 
             bool castrated = bool.TryParse(petVM.Castrated, out _);
             int age=int.Parse(petVM.Age);
 
-            var shelterID = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value);
+            var shelterID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             PhotoOfPet photo = new PhotoOfPet();
             Pet newPet = new Pet();
 
@@ -91,17 +111,42 @@ namespace PetMate.Controllers
                 return BadRequest(ex);
 
             }
-            TempData["confirmation_msg"] = "Успешно добавихте нов любимец!";
+            TempData["msg"] = "Успешно добавихте нов любимец!";
 
             return RedirectToAction("ShelterHomePage", "Shelter");
         }
+
+        [HttpGet]
+        
+        public async Task<IActionResult> Profile()
+        {
+            int shelter_id=int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            Shelter curr_shelter = await db.Shelters.FindAsync(shelter_id);
+
+            List<Pet> pets_in_shelter = await db.Pets.Where(x => x.ShelterId == shelter_id).ToListAsync();
+            ShelterViewModel shelter_vm = new ShelterViewModel()
+            {
+                Id = curr_shelter.Id,
+                Address = curr_shelter.Address,
+                ShelterName = curr_shelter.ShelterName,
+                ShelterPassword = curr_shelter.ShelterPassword,
+                WorkingTime=curr_shelter.WorkingTime,
+                VisitorsTime=curr_shelter.VisitorsTime,
+                Type = curr_shelter.Type,
+                Pets = await PetMateModel.ToPetsVM(pets_in_shelter),
+                PetCount=curr_shelter.PetCount
+            };
+            return View(shelter_vm);
+
+        }
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             var cookieOptions = new CookieOptions
             {
-                Expires = DateTime.Now.AddDays(-1) // Set expiration to a past date
+                Expires = DateTime.Now.AddDays(-1) 
             };
             Response.Cookies.Append(".AspNetCore.Cookies", "", cookieOptions);
             return RedirectToAction("Index", "Home");
@@ -109,8 +154,7 @@ namespace PetMate.Controllers
         }
         public string AnalyseAnswers(string answers)
         {
-            string answer = usermanager.GetGPTResponse($"{explanation}.Return any of these characteristics for the user: {string.Join(", ", charactersitics)}, based on these questions: {questions} and their answers: {answers}. " + $"The last question is multiple choice, so the numbers 13 and above are the answers to the question.Also only return the chosen characteristics, nothing more, nothing less.", false);
-            string[] userChar = answer.Split(':');
+            string answer = usermanager.GetGPTResponse($"{explanation}. Върни някоя от тези характеристики за потребителя: {string.Join(", ", charactersitics)}, въз основа на тези въпроси: {questions} и техните отговори: {answers}. " + $"Последният въпрос е с възможност за многократен избор, така че числата 13 и нагоре са отговорите на този въпрос. Също така върни само избраните характеристики, нито повече, нито по-малко.", false); string[] userChar = answer.Split(':');
             string result = userChar[0].Replace("-", ", "); 
             return result;
         }
@@ -121,6 +165,46 @@ namespace PetMate.Controllers
             MailService service = new MailService(_config);
             service.SendEmail(mailModel.Subject, mailModel.Client_name, mailModel.Client_email, mailModel.Client_message);
             return RedirectToAction("MailSent", "Contact");
+        }
+        public async Task<IActionResult> AcceptRequest(int rid)
+        {
+            try
+            {
+                Request req = await db.Requests.FindAsync(rid);
+                req.Status = RequestStatus.Приета.ToString();
+
+                db.Requests.Update(req);
+                await db.SaveChangesAsync();
+                TempData["msg"] = "Заявката за осиновяване бе приета.";
+            }
+            catch
+            {
+                TempData["msg"] = "Приемането на заявка за осиновяване се правали. Пробвайте да обновите страницата или опитайте по-късно.";
+                return RedirectToAction("ShelterHomePage", "Shelter");
+            }
+
+
+            return RedirectToAction("ShelterHomePage", "Shelter");
+        }
+        public async Task<IActionResult> RejectRequest(int rid)
+        {
+            try
+            {
+                Request req = await db.Requests.FindAsync(rid);
+                req.Status = RequestStatus.Отхвърлена.ToString();
+
+                db.Requests.Update(req);
+                await db.SaveChangesAsync();
+                TempData["msg"] = "Заявката за осиновяване бе отхвърлена.";
+            }
+            catch
+            {
+                TempData["msg"] = "Приемането на заявка за осиновяване се правали. Пробвайте да обновите страницата или опитайте по-късно.";
+                return RedirectToAction("ShelterHomePage", "Shelter");
+            }
+
+
+            return RedirectToAction("ShelterHomePage", "Shelter");
         }
     }
 

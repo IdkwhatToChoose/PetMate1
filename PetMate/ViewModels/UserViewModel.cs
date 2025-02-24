@@ -1,4 +1,6 @@
-﻿namespace PetMate.ViewModels
+﻿using PetMate.Model;
+
+namespace PetMate.ViewModels
 {
     public class UserViewModel
     {
@@ -13,5 +15,9 @@
         public string Answers { get; set; }
 
         public string? Valid { get; set; }
+
+        public ICollection<PetVM> Pets { get; set;}
+
+        public ICollection<Request> Requests { get; set; }
     }
 }

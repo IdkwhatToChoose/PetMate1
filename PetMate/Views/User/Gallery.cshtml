@@ -6,6 +6,12 @@
 
     int currentPage = ViewBag.CurrentPage;
     var totalPages = ViewBag.TotalPages;
+
+    string GenderClass(string gender)
+    {
+        gender = gender == "Женско" ? "female" : "male";
+        return gender;
+    }
 }
 
 <!DOCTYPE html>
@@ -24,7 +30,7 @@
         {
             <div class="pet-gallery-item">
                 <!-- Search Icon -->
-                <a href="#" class="search-icon">
+                <a href="@Url.Action("PetProfile","Pet",new{id=pet.Id.GetHashCode()})" class="search-icon">
                     <i class="fas fa-search"></i>
                 </a>
 
@@ -35,7 +41,7 @@
                 <!-- Pet Info -->
                 <div class="pet-info">
                     <div class="pet-name">@pet.Name</div>
-                    <div class="gender-tag gender-@pet?.Gender?.ToLower()">@pet?.Gender</div>
+                    <div class='gender-tag gender-@GenderClass(pet.Gender)'>@pet?.Gender</div>
                 </div>
             </div>
         }

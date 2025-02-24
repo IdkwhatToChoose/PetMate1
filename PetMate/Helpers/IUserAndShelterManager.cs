@@ -3,6 +3,8 @@ using PetMate.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using System.Security;
+using Azure;
 
 namespace PetMate.Helpers
 {
@@ -10,12 +12,12 @@ namespace PetMate.Helpers
     {
         public User UserRegister(UserViewModel userViewModel);
         public Shelter ShelterRegister(ShelterViewModel shelterViewModel);
-        public async Task SetUserCookie(HttpContext httpContext, int id)
+        public async Task SetUserCookie(HttpContext httpContext, int id,HttpResponse response)
         {
             // Create user claims
             var claims = new List<Claim>
         {
-             new Claim(ClaimTypes.Sid, id.ToString()),
+             new Claim(ClaimTypes.NameIdentifier, id.ToString()),
              new Claim(ClaimTypes.Role, "User"),
             // Add roles if needed
         };
@@ -29,15 +31,22 @@ namespace PetMate.Helpers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
+                    ExpiresUtc = DateTime.UtcNow.AddHours(3)
                 });
+            //var cookieOptions = new CookieOptions
+            //{
+            //    HttpOnly = true,
+            //    SameSite = SameSiteMode.Strict // Prevent CSRF
+            //};
+            //response.Cookies.Append($"user_cookie_{id}", $"uUcookie-u{id}", cookieOptions);
         }
-        public async Task SetShelterCookie(HttpContext httpContext, int id)
+        public async Task SetShelterCookie(HttpContext httpContext, int id, HttpResponse response)
         {
+            
             // Create user claims
             var claims = new List<Claim>
         {
-             new Claim(ClaimTypes.Sid, id.ToString()),
+             new Claim(ClaimTypes.NameIdentifier, id.ToString()),
              new Claim(ClaimTypes.Role, "Shelter"),
             // Add roles if needed
         };
@@ -59,6 +68,12 @@ namespace PetMate.Helpers
                     IsPersistent = true,
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
                 });
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict // Prevent CSRF
+            };
+            response.Cookies.Append($"shelter_cookie_{id}", $"sScookie-s{id}", cookieOptions);
         }
 
         public (byte[] imageBytes, string imageName) SetPhoto(IFormFile imageFile);

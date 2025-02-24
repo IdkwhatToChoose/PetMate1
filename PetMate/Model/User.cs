@@ -14,4 +14,6 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public string? Character { get; set; }
+
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

@@ -45,5 +45,9 @@ app.MapControllerRoute(
     pattern: "Calendar",
     defaults: new { controller = "Shelter", action = "Index" });
 
-
+app.MapControllerRoute(
+    name: "SendAdoptionRequest",
+    pattern: "send-request/{id}",
+    defaults: new { controller = "Pet", action = "SendAdoptionRequest" }
+);
 app.Run();
