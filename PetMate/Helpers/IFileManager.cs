@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace PetMate.Helpers
 {
@@ -24,7 +27,26 @@ namespace PetMate.Helpers
 
             // Pass the base64 string to the view via ViewBag or model
             return base64Image;
-    }
+        }
+        public byte[] IncreaseQuality(byte[] image)
+        {
+            Bitmap bitmap;
+            using (Stream stream = new MemoryStream(image))
+            {
+                bitmap = new Bitmap(stream);
+            }
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                // Set high-quality rendering options
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-}
+            }
+            using(MemoryStream ms = new MemoryStream()) { 
+               bitmap.Save(ms,ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+    }
 }

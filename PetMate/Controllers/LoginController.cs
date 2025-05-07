@@ -16,6 +16,10 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Authentication.Google;
+using Google.Authentication;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace PetMate.Controllers
 {
@@ -23,14 +27,23 @@ namespace PetMate.Controllers
     {
         private PetMateContext db = new PetMateContext();
         private readonly IUserAndShelterManager usermanager;
+        IConfiguration config;
+
+
         private readonly string questions = "1. Колко активни сте в ежедневието си?, 2. Имате ли опит с отглеждане на домашни любимци?, 3. Каква е вашата житейска ситуация?, 4. Колко често сте у дома през деня?, 5. Имате ли други домашни любимци?, 6. Има ли деца във вашето домакинство?, 7. Колко време можете да отделяте ежедневно за грижа за домашен любимец?, 8. Какво ниво на поддръжка на домашен любимец предпочитате?, 9. Предпочитате ли домашен любимец, който е независим или интерактивен?, 10. Чувствате ли се комфортно с домашни любимци, които изискват редовно подстригване?, 11. Каква е вашата поносимост към шум или вокализации (лаене, мяукане)?, 12. Как бихте оценили вашата поносимост към почистване, свързано с домашния любимец?, 13. Чувствате ли се комфортно с домашни любимци, които може да имат специални нужди?, 14. Пътувате ли често и би ли пътувал вашият домашен любимец с вас?, 15. Кои качества са най-важни за вашия идеален домашен любимец?";
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
         private string explanation = "Правя уебсайт, където характеристиките на регистрирания домашен любимец ще се показват в неговия профил въз основа на отговорите на въпросите";
         private readonly string[] charactersitics = Enum.GetNames(typeof(Characteristics.Characteristics));
 
-        public LoginController(IUserAndShelterManager _userManager)
+        const string googleRedirectUri = $"https://localhost:7169/Login/GoogleResponse";
+
+        public LoginController(IUserAndShelterManager _userManager, IConfiguration configuration/*,SignInManager<User> signInManager*/
+   )
         {
+            config = configuration; 
             usermanager = _userManager;
+            //_sim = signInManager;
+
         }
 
         public IActionResult LoginShelter()
@@ -46,6 +59,17 @@ namespace PetMate.Controllers
         public IActionResult HabitForm()
         {
             return View();
+        }
+        //public IActionResult TwoFactorAuth(UserViewModel uvm)
+        //{
+        //    return View(uvm);
+        //}
+
+        public async Task<IActionResult> TwoFactorAuth(UserViewModel uvm,string? one)
+        {
+            MailService service = new MailService(config);
+            HttpContext.Session.SetInt32("2faCode", await service.Send2faCode(uvm.Email));
+            return View(uvm);
         }
         public IActionResult RegistrationShelter()
         {
@@ -64,18 +88,19 @@ namespace PetMate.Controllers
             return RedirectToAction("ShelterHomePage", "Shelter");
         }
         [HttpPost]
-        public IActionResult Register(UserViewModel userVM)
+        public async Task<IActionResult> Register(UserViewModel userVM)
         {
             bool validForm=bool.Parse(userVM.Valid);
-
+     
             if (validForm)
             {
-                User user = usermanager.UserRegister(userVM);//Sets user body, except characteristics
-                user.Character = AnalyseAnswers(userVM.Answers);
-                db.Users.Add(user);
-                db.SaveChanges();
 
-                usermanager.SetUserCookie(HttpContext, user.Id,Response);
+                User user = usermanager.UserRegister(userVM); //Sets user body, except characteristics
+                user.Character = AnalyseAnswers(userVM.Answers);
+                await db.Users.AddAsync(user);
+                await db.SaveChangesAsync();
+
+                await usermanager.SetUserCookie(HttpContext, user.Id,"k");
 
                 return RedirectToAction("UserHomePage", "User");
             }
@@ -91,6 +116,7 @@ namespace PetMate.Controllers
 
         public IActionResult Login()
         {
+            ViewBag.Error_msg = TempData["Error_msg"];
             return View();
         }
 
@@ -102,14 +128,17 @@ namespace PetMate.Controllers
             User? user = await db.Users.FirstOrDefaultAsync(x => x.Username == userVM.Username);
             string textPass = userVM.Password;
             userVM.Password = BCrypt.Net.BCrypt.HashPassword(userVM.Password);
+            
             if (user == null)
             {
                 ViewBag.Error_msg = "Потребителят не е намерен.";
                 return View();
             }
-            else if (BCrypt.Net.BCrypt.Verify(textPass, user.Password)==true)
+            else if (BCrypt.Net.BCrypt.Verify(textPass, user.Password))
             {
-                await usermanager.SetUserCookie(HttpContext, user.Id,Response);
+                //var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                //string token = result.Properties?.GetTokenValue("access_token");
+                await usermanager.SetUserCookie(HttpContext, user.Id,"");
                 
                 return RedirectToAction("UserHomePage","User");
 
@@ -147,40 +176,55 @@ namespace PetMate.Controllers
             ViewBag.Error_msg = "Грешно потребителско име или парола. Моля опитайте отново.";
             return View();
         }
-        private string GetGPTResponse(string prompt)
+     
+        public IActionResult GoogleLogin()
         {
-            string model = "gpt-3.5-turbo"; // Specify the model (e.g., gpt-4)
-            ChatClient chatClient = new ChatClient(model, apiKey);
 
-            // Create messages using the specific message types
-            List<ChatMessage> messages = new List<ChatMessage>
-            {
-                 ChatMessage.CreateSystemMessage("You are a helpful assistant. Respond in bulgarian."),
-                 ChatMessage.CreateUserMessage(prompt)
-            };
+            var properties = new AuthenticationProperties { RedirectUri = googleRedirectUri};
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var tokens = result.Properties.GetTokens();
 
-            try
-            {
-                // Send chat request (synchronous)
-                ClientResult<ChatCompletion> result = chatClient.CompleteChat(messages);
-
-                if (result?.Value != null)
+            var claims = result.Principal.Identities.FirstOrDefault()
+                .Claims.Select(claim => new
                 {
-                    // Access the response content directly through the flattened property
-                    return result.Value.Content[0].Text;
-                }
-                else
-                {
-                    return "Error: The result value is null or the operation was unsuccessful.";
-                }
-            }
-            catch (Exception ex)
+                    claim.Issuer,
+                    claim.OriginalIssuer,
+                    claim.Type,
+                    claim.Value
+                });
+
+            User? u = await db.Users.FirstOrDefaultAsync(u => u.Username == result.Principal.FindFirstValue(ClaimTypes.Name));            
+            
+
+            if (u == null)
             {
-                return "An error occurred: " + ex.Message;
+                TempData["Error_msg"] = "Потребителят не е намерен.";
+                return RedirectToAction("Login","Login");
             }
+            else if (u.Email == result.Principal.FindFirstValue(ClaimTypes.Email))
+            {
+                await usermanager.SetUserCookie(HttpContext, u.Id, result.Properties?.GetTokenValue("access_token"));
+                return RedirectToAction("UserHomePage", "User");
+
+            }
+            TempData["Error_msg"] = "Грешно потребителско име или парола. Моля опитайте отново";
+            return RedirectToAction("Login", "Login");
+
         }
 
-
-   
+        [HttpPost]
+        public IActionResult RegisterUserInfo(UserViewModel uvm)
+        {
+            if(uvm.TwofaCode != HttpContext.Session.GetInt32("2faCode").ToString())
+            {
+                TempData["Message"] = "Грешен код за валидация на имейл. Опитайте отново или изпратете нов код.";
+                return View("TwoFactorAuth",uvm);
+            }
+            return View("HabitForm",uvm);
+        }
     }
 }

@@ -58,3 +58,100 @@
     transition: opacity 1s ease-out; /* Smooth fade-out effect */
     opacity: 0; /* Fully transparent */
 }
+dialog {
+    border: none;
+    border-radius: 8px;
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.7);
+    transition: all 0.3s ease;
+    &[open]
+
+{
+    transform: scale(1.1);
+   /* @starting-style
+
+    {
+        transform: scale(0.7);
+    }*/
+}
+
+}
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    letter-spacing: 0.8px;
+    h4
+{
+    color: rgba(122, 122, 122, 0.767);
+    margin: 0;
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.76);
+    margin: 0;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 4px;
+    margin: 5px 0;
+    .field
+
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    span
+
+{
+    position: relative;
+    opacity: 0;
+    top: 10px;
+    color: #707070;
+    letter-spacing: normal;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 2px;
+    transition: all .25s ease;
+}
+
+}
+
+input {
+    border: none;
+    outline: none;
+    background-color: rgba(128, 128, 128, 0.089);
+    border-bottom: 2px solid #9494948e;
+    padding: 10px;
+    transition: all .3s ease;
+}
+
+    input:focus {
+        border-bottom: 2px solid #008a077a;
+    }
+
+}
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }

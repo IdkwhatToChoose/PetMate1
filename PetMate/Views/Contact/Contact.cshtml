@@ -39,27 +39,27 @@
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                <h6 class="text-primary text-uppercase">Contact Us</h6>
-                <h1 class="display-5 text-uppercase mb-0">Please Feel Free To Contact Us</h1>
+                <h6 class="text-primary text-uppercase">Свържете се с нас</h6>
+                <h1 class="display-5 text-uppercase mb-0">Моля, не се колебайте да се свържете с нас.</h1>
             </div>
             <div class="row g-5">
                 <div class="col-lg-7">
-                    <form asp-action="SendMail" asp-controller="Shelter" enctype="multipart/form-data">
+                    <form asp-action="SendMail" asp-controller="Home" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-12">
-                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Name" asp-for="Client_name" style="height: 55px;">
+                                <input type="text" class="form-control bg-light border-0 px-4" placeholder="Your Name" asp-for="Name" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Your Email" asp-for="Client_email" style="height: 55px;">
+                                <input type="email" class="form-control bg-light border-0 px-4" placeholder="Your Email" asp-for="SenderEmail" style="height: 55px;">
                             </div>
                             <div class="col-12">
                                 <input type="text" class="form-control bg-light border-0 px-4" placeholder="Subject" asp-for="Subject" style="height: 55px;">
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control bg-light border-0 px-4 py-3" rows="8" placeholder="Message" asp-for="Client_message"></textarea>
+                                <textarea class="form-control bg-light border-0 px-4 py-3" rows="8" placeholder="Message" asp-for="Message"></textarea>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit">Изпрати съобщение</button>
                             </div>
                         </div>
                     </form>

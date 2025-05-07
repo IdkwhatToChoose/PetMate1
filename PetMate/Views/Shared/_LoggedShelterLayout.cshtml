@@ -34,13 +34,15 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0 mb-5">
         <a href="index.html" class="navbar-brand ms-lg-5">
-            <h1 class="m-0 text-uppercase text-dark"><img class="fs-1 text-primary me-3 h-50 rounded-circle my-2" style="max-height:90px" src="~/uploads/logo.jpg">Pet Shop</h1>
+            <h1 class="m-0 text-uppercase text-dark"><img class="fs-1 text-primary me-3 h-50 rounded-circle my-2" style="max-height:90px" src="/uploads/logo.png">Pet Shop</h1>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
+                
+                <a href="@Url.Action("ShelterHomePage","Shelter")" class="nav-item nav-link">Назад</a>
                 <a href="@Url.Action("PetRegistration","Shelter")" class="nav-item nav-link">Добави любимец</a>
                 <a href="@Url.Action("Profile","Shelter")" class="nav-item nav-link">Профил</a>
                 <a href="@Url.Action("Logout","Shelter")" class="nav-item nav-link">Излез</a>
@@ -60,7 +62,7 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>. All Rights Reserved. Made for NOIT</p>
+                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>.Направено за НОИТ</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a></p>

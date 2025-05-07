@@ -27,7 +27,7 @@ public partial class PetMateContext : DbContext
 
     public virtual DbSet<Shelter> Shelters { get; set; }
 
-    public virtual DbSet<Sponsoring> Sponsorings { get; set; }
+    public virtual DbSet<Sponsorship> Sponsorships { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -126,18 +126,14 @@ public partial class PetMateContext : DbContext
         {
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.PetCount).HasColumnName("petCount");
-            entity.Property(e => e.ShelterName)
-                .HasMaxLength(250)
-                .IsUnicode(false);
+            entity.Property(e => e.ShelterName).HasMaxLength(250);
             entity.Property(e => e.ShelterPassword)
                 .IsUnicode(false)
                 .HasColumnName("shelterPassword");
             entity.Property(e => e.Type)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("type");
             entity.Property(e => e.VisitorsTime)
                 .HasMaxLength(50)
@@ -149,9 +145,9 @@ public partial class PetMateContext : DbContext
                 .HasColumnName("workingTime");
         });
 
-        modelBuilder.Entity<Sponsoring>(entity =>
+        modelBuilder.Entity<Sponsorship>(entity =>
         {
-            entity.ToTable("Sponsoring");
+            entity.HasKey(e => e.Id).HasName("PK_Sponsoring");
 
             entity.Property(e => e.PetId).HasColumnName("petID");
             entity.Property(e => e.UserId).HasColumnName("userID");

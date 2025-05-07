@@ -10,15 +10,17 @@ namespace PetMate.Helpers
 {
     public interface IUserAndShelterManager
     {
+
         public User UserRegister(UserViewModel userViewModel);
         public Shelter ShelterRegister(ShelterViewModel shelterViewModel);
-        public async Task SetUserCookie(HttpContext httpContext, int id,HttpResponse response)
+        public async Task SetUserCookie(HttpContext httpContext, int id,string? token)
         {
             // Create user claims
             var claims = new List<Claim>
         {
              new Claim(ClaimTypes.NameIdentifier, id.ToString()),
              new Claim(ClaimTypes.Role, "User"),
+             new Claim(ClaimTypes.Authentication,token)
             // Add roles if needed
         };
 
@@ -31,14 +33,9 @@ namespace PetMate.Helpers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddHours(3)
+                    ExpiresUtc = DateTime.UtcNow.AddHours(1)
                 });
-            //var cookieOptions = new CookieOptions
-            //{
-            //    HttpOnly = true,
-            //    SameSite = SameSiteMode.Strict // Prevent CSRF
-            //};
-            //response.Cookies.Append($"user_cookie_{id}", $"uUcookie-u{id}", cookieOptions);
+            
         }
         public async Task SetShelterCookie(HttpContext httpContext, int id, HttpResponse response)
         {
@@ -66,7 +63,7 @@ namespace PetMate.Helpers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
+                    ExpiresUtc = DateTime.UtcNow.AddHours(1)
                 });
             var cookieOptions = new CookieOptions
             {

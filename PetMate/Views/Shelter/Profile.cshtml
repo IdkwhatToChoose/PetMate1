@@ -3,6 +3,8 @@
 
 @{
 
+   
+
     Layout = "_LoggedShelterLayout";
     var shelter = Model;
 
@@ -95,7 +97,7 @@
         <!-- Shelter Details -->
         <div class="row g-4">
             <!-- Shelter Information -->
-            <div class="col-md-6">
+           @* <div class="col-md-6">*@
                 <div class="detail-card bg-white p-4 h-75">
                     <h3 class="h5 fw-bold mb-4">Информация за приют</h3>
                     <div class="d-flex align-items-center mb-3">
@@ -119,7 +121,9 @@
                             <p class="fw-bold mb-0">@Model.VisitorsTime</p>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center">
+                @if (User.IsInRole("Shelter"))
+                {
+                   <div class="d-flex align-items-center">
                         <i class="bi bi-shield-lock fs-3 me-3 text-primary"></i>
                         <div>
                             <p class="text-muted mb-0">Парола</p>
@@ -127,72 +131,76 @@
                                    class="form-control-plaintext fw-bold" readonly>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23649.61160252974!2d24.309741357019757!3d42.18876000737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14acb004f11b7311%3A0xdcb597ec099963ab!2z0J_QsNC30LDRgNC00LbQuNC6!5e0!3m2!1sbg!2sbg!4v1739697157244!5m2!1sbg!2sbg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
+                   
+                    
+                }
                 
-            </div>
+                
+           @* </div>*@
 
             <!-- Pets Section -->
-            <div class="col-md-6">
-                <div class="detail-card bg-white p-4 h-100">
-                    <h3 class="h5 fw-bold mb-4">Любимци за осиновяване</h3>
-                    <div class="row g-3">
-                        <!-- Pet Card 1 -->
-                        @if (shelter.Pets?.Count != 0)
+            
+        </div>
+        <div class="row g-3 mt-3">
+            <div class="detail-card bg-white p-4 h-100">
+                <h3 class="h5 fw-bold mb-4">Любимци за осиновяване</h3>
+                <div class="row g-4">
+                    <!-- Pet Card 1 -->
+                    @if (shelter.Pets?.Count != 0)
+                    {
+                        @foreach (var pet in shelter.Pets)
                         {
-                            @foreach (var pet in shelter.Pets)
-                            {
-                                <div class="col-md-6">
-                                    <div class="card border-0 shadow-sm">
-                                        <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))"
-                                             class="card-img-top"
-                                             alt="Pet Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title fw-bold">@pet.Name</h5>
-                                            <p class="card-text text-muted">@pet.Breed • @pet.Age</p>
-                                            <a href="#" class="btn btn-primary btn-sm w-100">
-                                                <i class="bi bi-eye me-2"></i> Преглед
-                                            </a>
-                                        </div>
+                            <div class="col-md-3">
+                                <div class="card border-0 shadow-sm">
+                                    <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))"
+                                         class="card-img-top h-50"
+                                         alt="Pet Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">@pet.Name</h5>
+                                        <p class="card-text text-muted">@pet.Breed • @pet.Age</p>
+                                        <a href="@Url.Action("PetProfile","Pet",new{id=pet.Id.GetHashCode()})" class="btn btn-primary btn-sm w-100">
+                                            <i class="bi bi-eye me-2"></i> Преглед
+                                        </a>
                                     </div>
                                 </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-body border-0">
-                                    <p class="card-text text-muted">За момента нямате любимци за осиновяване във вашия профил. Добавете тук</p>
-                                </div>
                             </div>
                         }
-                        <!-- Pet Card 2 -->
-                       @* <div class="col-md-6">
-                            <div class="card border-0 shadow-sm">
-                                <img src="https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993"
-                                     class="card-img-top"
-                                     alt="Pet Image">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold">Whiskers</h5>
-                                    <p class="card-text text-muted">Tabby Cat • 1.5 years</p>
-                                    <a href="#" class="btn btn-primary btn-sm w-100">
-                                        <i class="bi bi-eye me-2"></i> View
-                                    </a>
-                                </div>
+                    }
+                    else
+                    {
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body border-0">
+                                <p class="card-text text-muted">За момента нямате любимци за осиновяване във вашия профил.</p>
                             </div>
-                        </div>*@
+                        </div>
+                    }
+                    <!-- Pet Card 2 -->
+                    @* <div class="col-md-6">
+                    <div class="card border-0 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993"
+                    class="card-img-top"
+                    alt="Pet Image">
+                    <div class="card-body">
+                    <h5 class="card-title fw-bold">Whiskers</h5>
+                    <p class="card-text text-muted">Tabby Cat • 1.5 years</p>
+                    <a href="#" class="btn btn-primary btn-sm w-100">
+                    <i class="bi bi-eye me-2"></i> View
+                    </a>
                     </div>
+                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-end gap-3 mt-5">
-            <button class="btn btn-primary btn-lg rounded-0">
-                <i class="bi bi-pencil me-2"></i> Направи промени
-            </button>
+            @if (User.IsInRole("Shelter"))
+            {
+                <button class="btn btn-primary btn-lg rounded-0">
+                    <i class="bi bi-pencil me-2"></i> Направи промени
+                </button>
+            }
             <button class="btn btn-success btn-lg rounded-0">
                 <i class="bi bi-chat-dots me-2"></i> Свържи се с нас
             </button>

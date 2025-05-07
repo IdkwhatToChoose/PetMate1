@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetMate.ViewModels;
 
 namespace PetMate.Controllers
 {
@@ -8,9 +9,9 @@ namespace PetMate.Controllers
         {
             return View();
         }
-        public IActionResult MailSent()
+        public IActionResult Success(SuccessStatus status)
         {
-            return View();
+            return View(status);
         }
     }
 }

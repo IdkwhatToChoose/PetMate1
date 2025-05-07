@@ -1,0 +1,177 @@
+﻿@model PetMate.ViewModels.PetVM
+
+@{
+    Layout = "_LoggedUserLayout";
+    string? message = ViewBag.ErrorMessage;
+}
+
+<link rel="stylesheet" href="~/assets/css/dialogs.css" />
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="pm-dialog error" id="pm-dialog">
+        <p>@message</p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
+}
+
+<style>
+    :root {
+        --primary-green: #2e7d32;
+        --dark-green: #1b5e20;
+        --white: #ffffff;
+        --light-gray: #f5f5f5;
+        --medium-gray: #e0e0e0;
+        --dark-gray: #424242;
+        --error-red: #d32f2f;
+    }
+
+    /* Remove all rounded corners */
+    .btn, .card, .form-control, .alert, .badge, .dropdown-menu {
+        border-radius: 0 !important;
+    }
+
+    body {
+        background-color: var(--white);
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .header {
+        background-color: var(--white);
+        border-bottom: 2px solid var(--medium-gray);
+        padding: 2rem 0;
+    }
+
+    .header-title {
+        color: var(--primary-green);
+        font-weight: 700;
+    }
+
+    .donation-card {
+        border: 1px solid var(--medium-gray);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .dog-image {
+        height: 300px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .btn-donate {
+        background-color: var(--primary-green);
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+        .btn-donate:hover {
+            background-color: var(--dark-green);
+        }
+
+    .amount-option {
+        border: 1px solid var(--medium-gray);
+        color: var(--dark-gray);
+        font-weight: 600;
+        margin: 0;
+    }
+
+        .amount-option:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .amount-option.active {
+            background: var(--primary-green);
+            color: var(--white);
+            border-color: var(--primary-green);
+        }
+
+    .impact-stat {
+        background-color: var(--light-gray);
+        border: 1px solid var(--medium-gray);
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .stat-number {
+        color: var(--primary-green);
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .footer {
+        border-top: 2px solid var(--medium-gray);
+        padding: 1.5rem 0;
+        margin-top: 2rem;
+    }
+
+    /* Stripe element styling */
+    .StripeElement {
+        box-sizing: border-box;
+        padding: 10px 12px;
+        border: 1px solid var(--medium-gray);
+        background-color: white;
+    }
+
+    .StripeElement--focus {
+        border-color: var(--primary-green);
+    }
+
+    .StripeElement--invalid {
+        border-color: var(--error-red);
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+
+    #card-errors {
+        color: var(--error-red);
+        display: none;
+    }
+
+    .field-validation-error {
+        color: var(--error-red);
+        font-size: 0.875em;
+    }
+</style>
+
+
+<div class="row container m-auto">
+    <!-- Dog Info Column -->
+    <div class="col-lg-6 mb-4">
+        <div class="donation-card h-100">
+            <img src="https://images.unsplash.com/photo-1552053831-71594a27632d" alt="Shelter dog" class="dog-image" />
+            <div class="p-4">
+                <h2 class="h4 mb-3">Sponsor a Shelter Dog Today</h2>
+                <p>Every $50 provides one week of care for a dog at our shelter. 100% of your donation goes directly to helping dogs in need.</p>
+
+                <div class="row mt-4 g-2">
+                    <div class="col-md-6">
+                        <div class="impact-stat">
+                            <div class="stat-number">1,200+</div>
+                            <div>Dogs helped last year</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="impact-stat">
+                            <div class="stat-number">85%</div>
+                            <div>Adoption success rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Form Column -->
+    <div class="col-lg-6 mb-4">
+        <div class="donation-card p-4 h-100">
+            <h2 class="h4 mb-4 text-center">Make a Donation</h2>
+            @await Html.PartialAsync("_DonationForm", new PetMate.Model.Donation(){PetId = Model.Id})
+            
+        </div>
+    </div>
+</div>

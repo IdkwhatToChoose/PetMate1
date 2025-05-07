@@ -18,6 +18,12 @@ namespace PetMate.ViewModels
 
         public ICollection<PetVM> Pets { get; set;}
 
-        public ICollection<Request> Requests { get; set; }
+        public ICollection<Request>? Requests { get; set; }
+
+        public ICollection<Donation>? Donations { get; set; }
+
+        public string? CalendarUrl { get; set; }
+
+        public string? TwofaCode { get; set; }
     }
 }

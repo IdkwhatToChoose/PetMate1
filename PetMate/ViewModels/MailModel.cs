@@ -2,9 +2,10 @@
 {
     public class MailModel
     {
-        public string Client_name { get; set; }
-        public string Client_email { get; set;}
-        public string Subject { get; set;}
-        public string Client_message { get; set;}
+        public string? Name { get; set; }
+        public string? SenderEmail { get; set; }
+        public string Subject { get; set; } = null!;
+        public string Message { get; set;} = null!;
+        public string? RevieverEmail { get; set; }
     }
 }

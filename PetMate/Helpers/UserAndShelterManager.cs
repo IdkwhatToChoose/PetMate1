@@ -15,15 +15,12 @@
     {
         private string? apiKey = Environment.GetEnvironmentVariable("OpenAI-API-KEY");
         private readonly IWebHostEnvironment _environment;
+        private readonly IFileManager _fm;
 
-        public UserAndShelterManager()
-        {
-
-        }
-
-        public UserAndShelterManager(IWebHostEnvironment environment)
+        public UserAndShelterManager(IWebHostEnvironment environment, IFileManager fm)
         {
             _environment = environment;
+            _fm = fm;
         }
 
         public User UserRegister(UserViewModel uvm)
@@ -61,7 +58,8 @@
             using (var memoryStream = new MemoryStream())
             {
                 imageFile.CopyTo(memoryStream);
-                return (memoryStream.ToArray(), imageFile.FileName);
+                var imageData = _fm.IncreaseQuality(memoryStream.ToArray());
+                return (imageData, imageFile.FileName);
             }
         }
         public string GetGPTResponse(string prompt,bool strict_match)

@@ -1,0 +1,184 @@
+﻿
+@model PetMate.ViewModels.UserViewModel
+<dialog id="regDialog">
+    
+    <form asp-action="TwoFactorAuth" asp-controller="Login" method="post">
+        <h4>Регистрация</h4>
+        <h2>Създайте си профил</h2>
+        <div class="field-group">
+            <!-- <input type="text" id="username" name="username" required placeholder="Username"> -->
+            <div class="field">
+                <input type="text" id="user"  asp-for="Username" required placeholder="Потребителско име">
+                <span>Потребителското име може да съдържа само буквено-цифрови знаци или единични тирета и не може да започва или завършва с тире.</span>
+            </div>
+            <div class="field">
+                <input type="email" asp-for="Email" id="user" required placeholder="Имейл">
+            </div>
+            <div class="field">
+                <input type="password" asp-for="Password" id="pass1"  required placeholder="Парола">
+                <span>Паролата трябва да е от 8 до 25 знака, включително цифра и малка буква.</span>
+            </div>
+            <!-- <input type="text" id="username" name="username" required placeholder="Username"> -->
+        </div>
+        <button id="signin">Продължи</button>
+    </form>
+</dialog>
+
+<style>
+    /*body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+    }*/
+
+    dialog {
+        border: none;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 8px;
+        width: 430px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(0.7);
+        transition: all 0.3s ease;
+        &[open]
+
+    {
+        transform: scale(1.1);
+    /*starting-style
+
+    {
+        transform: scale(0.7);
+    }*/
+
+    }
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        letter-spacing: 0.8px;
+        
+
+    h2 {
+        color: rgba(0, 0, 0, 0.76);
+        font-size:23px;
+        margin: 0;
+    }
+
+    h4 {
+        color: rgba(122, 122, 122, 0.767);
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        padding: 4px;
+        margin: 10px 0;
+        .field
+
+    {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        span
+
+    {
+        position: relative;
+        opacity: 0;
+        top: 10px;
+        color: #707070;
+        letter-spacing: normal;
+        font-weight: bold;
+        font-size: 11px;
+        padding: 2px;
+        transition: all .25s ease;
+    }
+
+    }
+
+    input {
+        border: none;
+        outline: none;
+        background-color: rgba(128, 128, 128, 0.089);
+        border-bottom: 2px solid #9494948e;
+        padding: 8px;
+        height:40px;
+        transition: all .3s ease;
+    }
+
+        input:focus {
+            border-bottom: 2px solid #008a077a;
+        }
+
+    }
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<script>
+
+    let pass_field = document.querySelector('#pass1');
+    let user_field = document.querySelector('#user');
+
+    let pass_warning = pass_field.nextElementSibling;
+    let user_warning = user_field.nextElementSibling;
+
+    let signin = document.querySelector('#signin');
+
+    const green = '#008a07';
+    pass_field.addEventListener('input', function () {
+        if (pass_field.value.length < 8 || pass_field.value.length > 25 || !/[a-z]/.test(pass_field.value) || !/\d/.test(pass_field.value)) {
+            pass_warning.style.opacity = '1';
+            pass_warning.style.top = '0';
+            pass_warning.style.color = 'red';
+            pass_field.style.borderBottom = '2px solid red';
+            signin.disabled = true;
+        } else {
+            pass_warning.style.opacity = '1';
+            pass_warning.style.top = '0';
+            pass_warning.style.color = green;
+            pass_field.style.borderBottom = `2px solid ${green}`;
+            signin.disabled = false;
+        }
+    });
+    user_field.addEventListener("input", function () {
+
+        if (user_field.value.startsWith("-") || user_field.value.endsWith("-") || user_field.value.endsWith("'") || user_field.value.includes(" ") || !/[a-z\d]+/.test(user_field.value) || user_field.value.length > 25) {
+            user_warning.style.opacity = '1';
+            user_warning.style.top = '0';
+            user_warning.style.color = 'red';
+            user_field.style.borderBottom = '2px solid red';
+            signin.disabled = true;
+        } else {
+            user_warning.style.opacity = '1';
+            user_warning.style.top = '0';
+            user_warning.style.color = green;
+            user_field.style.borderBottom = `2px solid ${green}`;
+            signin.disabled = false;
+        }
+
+    });
+
+
+</script>

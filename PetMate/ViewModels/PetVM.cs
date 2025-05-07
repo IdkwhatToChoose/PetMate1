@@ -25,6 +25,8 @@ namespace PetMate.ViewModels
 
         public IFormFile? Image { get; set; }
 
+        public List<IFormFile>? Images { get; set; }
+
         public string? Answers { get; set; }
     }
     public static class SelectOptionsPet

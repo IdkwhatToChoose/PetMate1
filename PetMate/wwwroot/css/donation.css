@@ -1,0 +1,246 @@
+﻿:root {
+    --primary-green: #28a745;
+    --dark-green: #1b5e20;
+    --light-green: #81c784;
+    --white: #ffffff;
+    --light-gray: #f5f5f5;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #424242;
+    --error-red: #d32f2f;
+    --accent-blue: #17a2b8;
+    --light-blue: #d1ecf1;
+}
+
+/*body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark-gray);
+    background-color: var(--white);
+}*/
+
+.header {
+    border-bottom: 2px solid var(--medium-gray);
+}
+
+    .header h1 {
+        color: var(--primary-green);
+        font-weight: 700;
+    }
+
+.dog-card {
+    border: 1px solid var(--medium-gray);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dog-image {
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.stat {
+    border: 1px solid var(--medium-gray);
+    background: var(--light-gray);
+}
+
+.stat-number {
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.donation-form {
+    border: 1px solid var(--medium-gray);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.amount-option {
+    border: 1px solid var(--medium-gray);
+    color: var(--dark-gray);
+    font-weight: 600;
+    border-radius: 1px;
+}
+
+    .amount-option:hover {
+        border-color: var(--primary-green) !important;
+        color: var(--primary-green) !important;
+        background-color: white !important;
+
+    }
+
+    .amount-option.active {
+        background: var(--primary-green) !important;
+        color: var(--white) !important;
+        border-color: var(--primary-green) !important;
+    }
+
+.btn-donate {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+}
+
+    .btn-donate:hover {
+        background-color: var(--dark-green);
+    }
+
+
+.stripe-card {
+    padding: 12px;
+    border: 1px solid var(--medium-gray);
+}
+
+.error-message {
+    color: var(--error-red);
+    display: none;
+}
+
+
+.donations-panel {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    width: 420px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+    .donations-panel:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .donations-panel .card-header {
+        border-radius: 10px 10px 0 0 !important;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, var(--primary-green), var(--accent-blue));
+        color: white;
+        border: none;
+    }
+
+    .donations-panel .table {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+
+    .donations-panel th {
+        border-top: none;
+        font-weight: 600;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background-color: rgba(248, 249, 250, 0.9);
+        color: #495057;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .donations-panel td {
+        vertical-align: middle;
+        padding: 14px 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.03);
+        transition: background-color 0.2s ease;
+    }
+
+    .donations-panel tr:hover td {
+        background-color: rgba(241, 248, 245, 0.7);
+    }
+
+    .donations-panel .badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    .donations-panel .card-footer {
+        border-radius: 0 0 10px 10px;
+        background-color: white;
+        padding: 12px 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+.status-active {
+    background-color: var(--light-green);
+    position: relative;
+}
+
+    .status-active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: var(--primary-green);
+    }
+
+.table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-green) rgba(0, 0, 0, 0.05);
+}
+
+    .table-responsive::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 3px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: var(--primary-green);
+        border-radius: 3px;
+    }
+
+.month-total {
+    font-weight: 600;
+    color: var(--dark-green);
+    font-size: 1.05rem;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
+.badge-active {
+    background-color: var(--primary-green);
+}
+
+.badge-onetime {
+    background-color: var(--accent-blue);
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

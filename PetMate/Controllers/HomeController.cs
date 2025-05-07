@@ -28,10 +28,12 @@ namespace PetMate.Controllers
 
         PetMateContext db = new PetMateContext();
         private readonly IUserAndShelterManager manager;
+        private readonly IConfiguration _config;
 
-        public HomeController( IUserAndShelterManager _manager)
+        public HomeController( IUserAndShelterManager _manager,IConfiguration con)
         {
             manager = _manager;
+            _config = con;
         }
 
         //public IActionResult Gallery()
@@ -46,7 +48,12 @@ namespace PetMate.Controllers
             return View(petsVM);
         }
 
-        
+        public IActionResult SendMail(MailModel mailModel)
+        {
+            MailService service = new MailService(_config);
+            service.SendContactEmail(mailModel.Subject, mailModel.Name, mailModel.SenderEmail, mailModel.Message);
+            return RedirectToAction("MailSent", "Contact");
+        }
 
         public IActionResult Privacy()
         {

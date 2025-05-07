@@ -7,11 +7,10 @@
 
     Layout = "_LoggedShelterLayout";
     string? confirm_msg = ViewBag.confirm_msg;
+    string? msg_type = ViewBag.msg_type == "error" ? "error" : "confirm";
+
     var shelter = Model;
 
-    string accepted = RequestStatus.Приета.ToString();
-    string closed = RequestStatus.Отхвърлена.ToString();
-    string pending = RequestStatus.в_очакване.ToString();
 
 
     async Task<IFormFile> PetPhoto(PetMate.Model.Pet pet)
@@ -82,6 +81,10 @@
             
         }
 
+        .pending{
+            color:orangered;
+        }
+
         .req-action.reject:hover {
             background-color: red !important;
             .action-ic-reject
@@ -104,7 +107,7 @@
     <main class="main-wrapper">
         @if (!string.IsNullOrEmpty(confirm_msg))
         {
-            <div class="pm-dialog confirm" id="pm-dialog">
+            <div class="pm-dialog @msg_type" id="pm-dialog">
                 <p>@confirm_msg</p>
                 <button onclick="closeDialog()">OK</button>
             </div>
@@ -147,7 +150,7 @@
                         <div class="card-style mb-30">
                             <div class="title d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="left">
-                                    <h6 class="text-medium mb-30">Любимци</h6>
+                                    <h6 class="text-medium mb-30">Животни</h6>
                                 </div>
                                 <div class="right">
                                     
@@ -194,7 +197,8 @@
                                                     <div class="image">
                                                         <img src="data:image/jpeg;base64,@(await file.DisplayImage(pet.Image))" alt="" />
                                                     </div>
-                                                    <p class="text-sm">@pet.Name</p>
+                                                       
+                                                        <a class="text-sm" href="@Url.Action("PetProfile","Pet",new{id=pet.Id.GetHashCode()})">@pet.Name</a>
                                                 </div>
                                             </td>
                                             <td>
@@ -229,135 +233,7 @@
 
                                        }
                                        
-                                       @* <tr>
-                                            <td>
-                                                <div class="check-input-primary">
-                                                    <input class="form-check-input" type="checkbox" id="checkbox-1" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="product">
-                                                    <div class="image">
-                                                        <img src="assets/images/products/product-mini-2.jpg" alt="" />
-                                                    </div>
-                                                    <p class="text-sm">SOfa</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">Interior</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$145</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">13</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$15</p>
-                                            </td>
-                                            <td>
-                                                <div class="action justify-content-end">
-                                                    <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                        <i class="lni lni-more-alt"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Remove</a>
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="check-input-primary">
-                                                    <input class="form-check-input" type="checkbox" id="checkbox-1" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="product">
-                                                    <div class="image">
-                                                        <img src="assets/images/products/product-mini-3.jpg" alt="" />
-                                                    </div>
-                                                    <p class="text-sm">Dining Table</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">Interior</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$95</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">32</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$215</p>
-                                            </td>
-                                            <td>
-                                                <div class="action justify-content-end">
-                                                    <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                        <i class="lni lni-more-alt"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Remove</a>
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="check-input-primary">
-                                                    <input class="form-check-input" type="checkbox" id="checkbox-1" />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="product">
-                                                    <div class="image">
-                                                        <img src="" alt="" />
-                                                    </div>
-                                                    <p class="text-sm">Office Chair</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">Interior</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$105</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">23</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm">$345</p>
-                                            </td>
-                                            <td>
-                                                <div class="action justify-content-end">
-                                                    <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                        <i class="lni lni-more-alt"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Remove</a>
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                            <a href="#0" class="text-gray">Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>*@
+                                      
                                     </tbody>
                                 </table>
                                 <!-- End Table -->
@@ -418,7 +294,7 @@
                                             <tr>
                                             <td>
                                                 <div class="product">
-                                                        <i class="bi bi-home text-secondary-emphasis mx-1"></i>
+                                                        <i class="bi bi-user text-secondary-emphasis mx-1"></i>
                                                     <p class="text-sm">@request.User.Username</p>
                                                 </div>
                                             </td>

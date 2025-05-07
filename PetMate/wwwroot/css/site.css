@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
 
 
 html {
@@ -482,28 +482,98 @@ body {
     margin-top: 2%;
 }
 /*----------         --------------      -------------      -------------      Habit form | */
-#hobby-form * {
-    font-family: "Josefin Sans";
+/* @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap'); */
+
+.form-body {
+    display: flex;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: #f2f2f2;
+    *
+
+{
+    font-family: "Alice", serif !important;
+}
+
+}
+
+.hobby-form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 2em 0;
+    width: 60%;
+    max-width: 100%;
+    max-height: 60em;
+}
+
+.form-header {
+    padding: 1.7em 0;
+    width: 100%;
+    border-bottom: 2px solid rgba(0, 43, 16, 0.247);
+    *
+
+{
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    margin: 0;
+    color: #333;
+}
+
+p {
+    font-size: 1.2em;
+}
+
+span {
+    position: relative;
+    font-size: 0.85em;
+    top: 15px;
+    margin: 0;
+    color: #555;
+    transition: all ease 0.3s;
+}
+
+}
+
+#hobby-form {
+    margin-top: 15px;
+    padding: 7px;
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .question {
     background: rgba(51, 51, 53, 0.089);
     border-radius: 2px;
-    padding: 6px;
-    max-width: 90%;
-    margin-bottom: 10px;
+    padding: 4px;
+    max-width: 100%;
+    margin-bottom: 8px;
 }
 
     .question span:first-child {
         color: #014d11;
-        font-weight: 700;
+        font-weight: 600;
+        font-size: 13.5px;
     }
 
 
 .section-container {
-    margin: 10px;
-    max-width: 30%;
-    padding: 5px;
+    margin: 6px;
+    max-width: 30vh;
+    padding: 2px;
     border-radius: 2px;
     background: rgba(46, 45, 45, 0.171);
     transition: all ease 0.2s;
@@ -511,24 +581,72 @@ body {
 
     .section-container span {
         border-radius: 50%;
+        font-size: 13px;
     }
 
 .question .section-container:hover {
-    box-shadow: 3px 0px 10px 0.5px rgb(8, 92, 1);
+    box-shadow: 2px 0px 7px 0.4px rgb(8, 92, 1);
 }
 
 .section-container input[type="checkbox"] {
-    transform: scale(1.4);
+    transform: scale(1.2);
     margin-right: 12px;
-    margin-left: 4px;
 }
     /* .section-container input[type="checkbox"]:checked + .option span {
-            background-color: #4caf50;
-          } */
+    background-color: #4caf50;
+  } */
     .section-container input[type="checkbox"]:checked + span {
         color: #1d5a00;
     }
 
+.section-container input[type="radio"] {
+    transform: scale(1.2);
+    margin-right: 12px;
+    margin-left: 4px;
+}
+    /* .section-container input[type="checkbox"]:checked + .option span {
+    background-color: #4caf50;
+  } */
+    .section-container input[type="radio"]:checked + span {
+        color: #1d5a00;
+    }
+
+input[type="radio"]:checked {
+    color-scheme: rgb(2, 179, 70);
+}
+
+#submit {
+    background: #2b792d;
+    color: #fff;
+    margin-top: 2em;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    transition: all ease 0.2s;
+}
+
+    #submit:hover {
+        background: #45a049;
+        outline-offset: 3px;
+        outline: 2px solid #4caf50;
+    }
+
+    #submit:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        outline: none;
+        color: #666;
+    }
+
+@media(max-width: 768px) {
+    .hobby-form-wrap {
+        width: 90%;
+        max-width: 90%;
+    }
+}
 
 .castration input[type="checkbox"]{
     transform:scale(1.43);
@@ -536,6 +654,111 @@ body {
     font-size:24px;
    
 }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+dialog {
+    border: none;
+    border-radius: 8px;
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.7);
+    transition: all 0.3s ease;
+    &[open]
+
+{
+    transform: scale(1.1);
+
+    @starting-style {
+        transform: scale(0.7);
+    }
+}
+
+}
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    letter-spacing: 0.8px;
+    h4
+
+{
+    color: rgba(122, 122, 122, 0.767);
+    margin: 0;
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.76);
+    margin: 0;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 4px;
+    margin: 5px 0;
+    .field
+
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    span
+
+{
+    position: relative;
+    opacity: 0;
+    top: 10px;
+    color: #707070;
+    letter-spacing: normal;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 2px;
+    transition: all .25s ease;
+}
+
+}
+
+input {
+    border: none;
+    outline: none;
+    background-color: rgba(128, 128, 128, 0.089);
+    border-bottom: 2px solid #9494948e;
+    padding: 10px;
+    transition: all .3s ease;
+}
+
+    input:focus {
+        border-bottom: 2px solid #008a077a;
+    }
+
+}
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
 
 /* @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:slnt,wght@7,100..1000&family=Edu+AU+VIC+WA+NT+Dots:wght@400..700&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sixtyfour+Convergence&display=swap'); */
 

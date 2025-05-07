@@ -21,8 +21,10 @@
                         <div class="col-12">
                             <input type="number" class="form-control bg-light border-0 px-4" placeholder="Години" asp-for="Age" style="height: 55px;">
                         </div>
-                        <select asp-for="Gender" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.genders" style="height: 55px;">
-                        </select>
+                        <div class="col-12">
+                            <select asp-for="Gender" class="form-control bg-light border-1 px-4" asp-items="SelectOptionsPet.genders" style="height: 55px;">
+                            </select>
+                        </div>
                         <div class="col-12">
                             <input type="text" class="form-control bg-light border-0 px-4" placeholder="Порода" asp-for="Breed" style="height: 55px;">
                         </div>
@@ -31,7 +33,7 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <input type="file" class="form-control bg-light border-0 px-4" placeholder="Photos" asp-for="Image" multiple="TRUE" style="height: 55px;">
+                            <input type="file" class="form-control bg-light border-0 px-4" placeholder="Photos" asp-for="Images" multiple style="height: 55px;">
                         </div>
                         <div class="col-12 castration">
                             <div class="form-control pa-4">

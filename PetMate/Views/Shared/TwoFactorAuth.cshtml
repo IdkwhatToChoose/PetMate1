@@ -1,0 +1,221 @@
+﻿@model PetMate.ViewModels.UserViewModel;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Index - Selecao Bootstrap Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    
+    <link rel="stylesheet" href="~/assets/css/dialogs.css" />
+</head>
+
+<body>
+    @if (TempData["Message"] != null)
+    {
+        <div class="pm-dialog error" id="pm-dialog">
+            <p>@TempData["Message"]</p>
+            <button onclick="closeDialog()">OK</button>
+        </div>
+    }
+
+    <main class="main">
+
+        <div class="verification-container">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#006400" d="M12 0a12 12 0 100 24 12 12 0 000-24zm-2 17l-5-5 1.4-1.4 3.6 3.6 7.6-7.6L19 8l-9 9z" />
+                </svg>
+
+            </div>
+            <h1>Последна стъпка преди да влезете в профила си.</h1>
+            <p class="subtitle">6-цифрен код за потвърждаване на идентичност бе изпратен на <strong>@Model.Email</strong>. Въведете кода тук за да продължите.</p>
+
+            <form id="verificationForm" asp-action="RegisterUserInfo" asp-controller="Login" enctype="multipart/form-data">
+                <div class="code-inputs">
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" autocomplete="one-time-code" required>
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" required>
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" required>
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" required>
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" required>
+                    <input type="text" class="code-input" maxlength="1" pattern="\d" inputmode="numeric" required>
+                </div>
+
+                <input type="text" asp-for="Email" hidden />
+                <input type="text" asp-for="Username" hidden />
+                <input type="text" asp-for="Password" hidden />
+
+                <input type="text" hidden id="code1" asp-for="TwofaCode" />
+                @* <p class="resend-code">Не получихте код? <a href="@Url.Action()">Изпрати отново</a></p>*@
+
+                <button type="submit" class="verify-button">Потвърди</button>
+
+            </form>
+
+        </div>
+
+    </main>
+</body>
+   
+
+
+
+
+
+</html>
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    main {
+        background-color: #a5a5a5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .verification-container {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 24px;
+    }
+
+        .logo svg {
+            width: 48px;
+            height: 48px;
+            fill: #4a6da7; /* Changed to match login button color */
+        }
+
+    h1 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 15px;
+    }
+
+    .code-inputs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 32px;
+    }
+
+    .code-input {
+        width: 50px;
+        height: 60px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: all 0.2s;
+        outline: none;
+    }
+
+        .code-input:focus {
+            border-color: #4a6da7; /* Changed to match login button color */
+            box-shadow: 0 0 0 3px rgba(74, 109, 167, 0.2); /* Adjusted to new color */
+        }
+
+    .resend-code {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+        .resend-code a {
+            color: #4a6da7; /* Changed to match login button color */
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .resend-code a:hover {
+                text-decoration: underline;
+            }
+
+    .verify-button {
+        background-color: #006400; /* Changed to match login button color */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 14px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .verify-button:hover {
+            background-color: #3a5a8a; /* Darker shade of the main color */
+        }
+
+        .verify-button:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+    .error-message {
+        color: #d9534f;
+        font-size: 14px;
+        margin-top: 16px;
+        display: none;
+    }
+
+</style>
+<script>
+    let codeInputs = document.querySelectorAll(".code-input");
+    let code = document.getElementById("code1");
+
+    codeInputs.forEach((input, index) => {
+        input.addEventListener('input', function () {
+            // Move to next input when a digit is entered
+            if (this.value.length === 1 && index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
+            }
+
+            // Combine all digits into the hidden input
+            const fullCode = Array.from(codeInputs).map(input => input.value).join('');
+            code.value = fullCode;
+        });
+
+        // Handle backspace to move to previous input
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                codeInputs[index - 1].focus();
+            }
+        });
+    });
+
+    code.addEventListener("change", new function () {
+
+        if (code.value.length == 5) {
+            document.querySelector(".verify-button").removeAttribute("disabled");
+
+        }
+
+    });
+</script>

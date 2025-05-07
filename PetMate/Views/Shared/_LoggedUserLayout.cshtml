@@ -27,6 +27,9 @@
 
     <!-- Template Stylesheet -->
     <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/donation.css" />
+
+    <link rel="stylesheet" href="~/assets/css/dialogs.css" />
 </head>
 
 <body>
@@ -74,6 +77,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                @* <a href="@Url.Action("ProfileInfo","Profile")" class="nav-item nav-link">Profile</a>*@
+                <a href="@Url.Action("UserHomePage","User")" class="nav-item nav-link">Назад</a>
                 <a href="@Url.Action("Logout","User")" class="nav-item nav-link">Излез</a>
                 <a href="@Url.Action("UserProfile","User")" class="nav-item nav-link">Профил</a>
 
@@ -103,7 +107,7 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>. All Rights Reserved. Made for NOIT</p>
+                    <p class="mb-md-0">&copy; <a class="text-white" href="#">PETMATE</a>.Направено за НОИТ</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a></p>
@@ -122,6 +126,7 @@
     <script src="~/lib/easing/easing.min.js"></script>
     <script src="~/lib/waypoints/waypoints.min.js"></script>
     <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/js/site.js"></script>
 
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>

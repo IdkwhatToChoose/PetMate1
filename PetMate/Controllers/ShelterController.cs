@@ -38,10 +38,13 @@ namespace PetMate.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> ShelterHomePage()
         {
            
             ViewBag.confirm_msg = TempData["msg"] as string;
+            ViewBag.msg_type = TempData["msg_type"] as string;
+
             int shelter_id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             Shelter curr_shelter = await db.Shelters.FindAsync(shelter_id);
 
@@ -82,7 +85,8 @@ namespace PetMate.Controllers
             int age=int.Parse(petVM.Age);
 
             var shelterID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            PhotoOfPet photo = new PhotoOfPet();
+            List<PhotoOfPet> photos = new List<PhotoOfPet>();
+
             Pet newPet = new Pet();
 
             newPet.Name = petVM.Name;
@@ -92,25 +96,26 @@ namespace PetMate.Controllers
             newPet.Castrated = castrated;
             newPet.Breed = petVM.Breed;
             newPet.ShelterId = shelterID;
-
-            (byte[] imageBytes, string imageName) imageFile = usermanager.SetPhoto(petVM.Image);
-            photo.Image = imageFile.imageBytes;
-            photo.ImageName = imageFile.imageName;
             newPet.Character = AnalyseAnswers(petVM.Answers);
-            try
-            {
-                await db.Pets.AddAsync(newPet);
-                await db.SaveChangesAsync();
 
+            await db.Pets.AddAsync(newPet);
+            await db.SaveChangesAsync();
+
+            foreach (var image in petVM.Images)
+            {
+                PhotoOfPet photo = new PhotoOfPet();
+
+                (byte[] imageBytes, string imageName) imageFile = usermanager.SetPhoto(image);
+                photo.Image = imageFile.imageBytes;
+                photo.ImageName = imageFile.imageName;
                 photo.PetId = newPet.Id;
-                await db.PhotoOfPets.AddAsync(photo);
-                await db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
 
+                photos.Add(photo);
             }
+
+            await db.PhotoOfPets.AddRangeAsync(photos);
+            await db.SaveChangesAsync();
+            
             TempData["msg"] = "Успешно добавихте нов любимец!";
 
             return RedirectToAction("ShelterHomePage", "Shelter");
@@ -160,26 +165,35 @@ namespace PetMate.Controllers
         }
 
 
-        public IActionResult SendMail(MailModel mailModel)
-        {
-            MailService service = new MailService(_config);
-            service.SendEmail(mailModel.Subject, mailModel.Client_name, mailModel.Client_email, mailModel.Client_message);
-            return RedirectToAction("MailSent", "Contact");
-        }
+       
         public async Task<IActionResult> AcceptRequest(int rid)
-        {
+        { 
+             string accepted = RequestStatus.Приета.ToString();
+             string rejected = RequestStatus.Отхвърлена.ToString();
+
             try
             {
                 Request req = await db.Requests.FindAsync(rid);
+
+                if(req.Status == accepted || req.Status == rejected)
+                {
+                    TempData["msg"] = $"Заявката за осиновяване вече е {req.Status.ToLower()}!";
+                    TempData["msg_type"] = "error";
+                    return RedirectToAction("ShelterHomePage", "Shelter");
+                }
+
                 req.Status = RequestStatus.Приета.ToString();
 
                 db.Requests.Update(req);
                 await db.SaveChangesAsync();
                 TempData["msg"] = "Заявката за осиновяване бе приета.";
+                TempData["msg_type"] = "success";
             }
-            catch
+            catch(Exception)
             {
                 TempData["msg"] = "Приемането на заявка за осиновяване се правали. Пробвайте да обновите страницата или опитайте по-късно.";
+                TempData["msg_type"] = "error";
+
                 return RedirectToAction("ShelterHomePage", "Shelter");
             }
 
@@ -188,9 +202,21 @@ namespace PetMate.Controllers
         }
         public async Task<IActionResult> RejectRequest(int rid)
         {
+
+            string accepted = RequestStatus.Приета.ToString();
+            string rejected = RequestStatus.Отхвърлена.ToString();
+
             try
             {
                 Request req = await db.Requests.FindAsync(rid);
+
+                if (req.Status == accepted || req.Status == rejected)
+                {
+                    TempData["msg"] = $"Заявката за осиновяване вече е {req.Status.ToLower()}!";
+                    TempData["msg_type"] = "error";
+                    return RedirectToAction("ShelterHomePage", "Shelter");
+                }
+
                 req.Status = RequestStatus.Отхвърлена.ToString();
 
                 db.Requests.Update(req);
